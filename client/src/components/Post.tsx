@@ -1,15 +1,14 @@
+import type { PostProps } from "../types/types";
+import { ThumbsUp, MoreVertical, ArrowUp, AlertTriangle } from "react-feather";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { ThumbsUp, MoreVertical, ArrowUp, AlertTriangle } from "react-feather";
 
-export default function Post(
-	{author,		liked,			likesCount,			content,		 postdate		}:
-	{author: string,liked: boolean,	likesCount: number,	content: string, postdate: Date	}
-	) {
+export default function Post( {author, liked, likesCount, content, postdate}: PostProps ) {
+
 	const [ isExpanded, setExpanded ] = useState(false);
 	const [ isLiked, setLiked ] = useState(liked);
 
-	const expand = () => { setExpanded(!isExpanded); }
+	const toggleExpanded = () => { setExpanded(!isExpanded); }
 	const like = () => { setLiked(!isLiked); }
 
 	const down = () => {
@@ -18,7 +17,7 @@ export default function Post(
 
 
 				<div>
-					<p>{content}</p>
+					<span>{content}</span>
 				</div>
 
 				<div>
@@ -28,7 +27,7 @@ export default function Post(
 					/>
 					< ArrowUp
 						className="img"
-						onClick={expand}
+						onClick={toggleExpanded}
 						color="#f3f4f6"
 					/>
 				</div>
@@ -39,7 +38,7 @@ export default function Post(
 
 	return (
 		<>
-			<div className={!isExpanded ? "post" : "post-exp"}>
+			<div className={!isExpanded ? "post" : "post-exp"} >
 
 				<div className="top">
 
@@ -71,7 +70,7 @@ export default function Post(
 						< MoreVertical
 							color="#f3f4f6"
 							className={!isExpanded ? "more" : "more exp" }
-							onClick={expand}
+							onClick={toggleExpanded}
 						/>
 
 					</div>
