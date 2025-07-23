@@ -1,7 +1,9 @@
 import type { PostProps } from "../types/types";
-import { ThumbsUp, MoreVertical, ArrowUp, AlertTriangle } from "react-feather";
+
 import { useState } from "react";
 import dayjs from "dayjs";
+
+import { ThumbsUp, MoreVertical, ArrowUp, AlertTriangle } from "react-feather";
 
 export default function Post( {author, liked, likesCount, content, postdate}: PostProps ) {
 
@@ -14,7 +16,6 @@ export default function Post( {author, liked, likesCount, content, postdate}: Po
 	const down = () => {
 		return (
 			<div className="down" >
-
 
 				<div>
 					<span>{content}</span>
@@ -48,7 +49,7 @@ export default function Post( {author, liked, likesCount, content, postdate}: Po
 							{author}
 						</b>
 						<p className={!isExpanded ? "" : "exp" } >
-							{ !isExpanded ? content.slice(0,30) : dayjs(postdate).format('DD/MM/YY HH:mm:ss') }
+							{ !isExpanded ? content.slice(0,15).concat("...") : dayjs(postdate).format("DD/MM/YY HH:mm:ss") }
 						</p>
 
 					</div>

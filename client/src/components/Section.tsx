@@ -1,11 +1,13 @@
-export default function Section(
-	{posts 					}:
-	{posts: React.ReactNode	}
-	) {
+import type { SectionProps } from "../types/types"
 
+export default function Section( {title, icon, posts}: SectionProps ) {
 	return (
 		<>
-			<div>
+			<div className="Section">
+				<div className="top-section">
+					<h4>{title}</h4>
+					{icon}
+				</div>
 				{posts}
 			</div>
 		</>
