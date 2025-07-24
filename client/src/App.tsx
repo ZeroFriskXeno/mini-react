@@ -1,23 +1,75 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import Post from "./components/Post"
 import Panel from "./components/Panel";
+import Modal from "./components/Modal";
 import Section from "./components/Section"
 import Overlay from "./components/Overlay";
+import ApiStatus from "./components/ApiStatus";
+import PanelOption from "./components/PanelOption";
 
 import { ThumbsUp, Clock, TrendingUp, Repeat } from "react-feather";
 
 export default function App() {
 
 	const [ showPanel, setShowPanel ] = useState(true);
+	const [ showModal, setShowModal ] = useState(false);
+	const [ ModalContent, setModalContent ] = useState(0);
 	const [ showOverlay, setShowOverlay ] = useState(false);
+	const [ logged, setLogged ] = useState(false);
+
+	const ModalContents = [
+		<p>Press F5 now!</p>
+	]
 
 	const togglePanel = () => {
 		setShowPanel(!showPanel);
 		toggleOverlay();
 	}
+
+	const toggleModal = () => {
+		setShowModal(!showModal);
+		toggleOverlay();
+	}
+
 	const toggleOverlay = () => {
 		setShowOverlay(!showOverlay)
+	}
+
+	const returnPanel = () => {
+
+		if (logged) {
+			return (
+
+				< Panel
+					slide={showPanel}
+					action={togglePanel}
+					options={
+						< PanelOption
+							text="Log out"
+							action={() => {alert("log out")}}
+						/>
+					}
+				/>
+
+			)
+		} else {
+			return (
+
+				< Panel
+					slide={showPanel}
+					action={togglePanel}
+					options={
+						< PanelOption
+							text="Register"
+							action={() => {alert("register")}}
+						/>
+					}
+				/>
+
+			)
+		}
+
 	}
 
 	const commonPost = () => {
@@ -32,10 +84,22 @@ export default function App() {
 		)
 	}
 
+	useEffect(() => {
+
+		const sessionToken = localStorage.getItem("sessionToken");
+		if ( sessionToken ) {
+			// TODO check token
+		} else {
+			setLogged(false)
+		}
+
+	}, [])
+
 	return (
 		<>
 
-			< Panel slide={showPanel} action={togglePanel} />
+			{returnPanel()}
+			< Modal show={showModal} content={ModalContents[ModalContent]} />
 			< Overlay show={showOverlay} />
 
 			<header>
@@ -45,7 +109,14 @@ export default function App() {
 					src="https://cdn.simpleicons.org/react"
 					onClick={togglePanel}
 				/>
-				<h4>Mini-React</h4>
+
+				<h4
+					onClick={() => {
+						toggleModal()
+						setModalContent(0)
+					}}
+				>Mini-React</h4>
+				< ApiStatus  />
 				<div> <small>v 1.0.0</small> </div>
 
 			</header>

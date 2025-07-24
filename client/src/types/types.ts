@@ -11,3 +11,14 @@ export interface SectionProps {
 	icon: React.ReactNode
 	posts: React.ReactNode
 }
+
+export interface PanelOptionProps {
+	text: string
+	action: () => any
+}
+
+export interface PanelProps {
+	slide: boolean
+	action: () => void
+	options: React.ReactNode
+}

@@ -1,6 +1,7 @@
-import PanelOption from "./PanelOption"
+import type { PanelProps } from "../types/types"
 
-export default function Panel( {slide, action}: {slide: boolean, action: () => void} ) {
+
+export default function Panel( {slide, action, options}:PanelProps ) {
 	return (
 		<>
 			<div id="panel" className={!slide ? "right-1/2" : "right-3/2"}>
@@ -13,11 +14,12 @@ export default function Panel( {slide, action}: {slide: boolean, action: () => v
 				<div id="panel-mid">
 
 					<hr />
-					< PanelOption />
+
+					{options}
 
 				</div>
 
-				<small>Build 2507222001</small>
+				<small>Build 2507231901</small>
 
 			</div>
 			{!slide ? <div id="panel-side" onClick={()=>{action()}}> </div> : null}

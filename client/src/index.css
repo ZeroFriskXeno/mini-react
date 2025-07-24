@@ -44,6 +44,8 @@
 			@apply p-5 m-2.5;
 			@apply bg-blue-900;
 			@apply rounded-md;
+			@apply cursor-pointer;
+			@apply hover:bg-blue-800;
 
 		}
 
@@ -68,6 +70,22 @@
 
 	}
 
+	#modal {
+
+		@apply absolute;
+		@apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+		@apply p-6;
+		@apply bg-white;
+
+		@apply shadow-lg;
+		@apply rounded-md;
+
+		@apply z-101;
+
+		* { @apply text-gray-900 }
+
+	}
+
 }
 
 html {
@@ -77,8 +95,8 @@ html {
 
 	body {
 
-		@apply bg-gray-100;
 		@apply h-full;
+		@apply bg-gray-100;
 		@apply overflow-hidden;
 
 		header {

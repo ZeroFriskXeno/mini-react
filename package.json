@@ -1,25 +1,25 @@
 {
-  "name": "mini-react",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "client": "pnpm --filter client run dev",
-    "server": "pnpm --filter server run dev",
-    "app": "concurrently \"pnpm run client\" \"pnpm run server\""
-  },
-  "keywords": [],
-  "author": "hppsrc",
-  "license": "GPL-3.0-or-later",
-  "description": "Mini-react is a micro-post web app.",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hppsrc/mini-react.git"
-  },
-  "bugs": {
-    "url": "https://github.com/hppsrc/mini-react/issues"
-  },
-  "homepage": "https://github.com/hppsrc/mini-react#readme",
-  "dependencies": {
-    "concurrently": "^9.2.0"
-  }
+	"name": "mini-react",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"client": "pnpm --filter client run dev",
+		"server": "pnpm --filter server run dev",
+		"app": "concurrently \"pnpm run client\" \"pnpm run server\""
+	},
+	"keywords": [],
+	"author": "hppsrc",
+	"license": "GPL-3.0-or-later",
+	"description": "Mini-react is a micro-post web app.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/hppsrc/mini-react.git"
+	},
+	"bugs": {
+		"url": "https://github.com/hppsrc/mini-react/issues"
+	},
+	"homepage": "https://github.com/hppsrc/mini-react#readme",
+	"dependencies": {
+		"concurrently": "^9.2.0"
+	}
 }

@@ -1,7 +1,12 @@
-export default function PanelOption() {
+import type { PanelOptionProps } from "../types/types"
+
+export default function PanelOption({text, action}:PanelOptionProps ) {
 	return (
-		<div className="option">
-			Placeholder
+		<div
+			onClick={action}
+			className="option"
+		>
+			{text}
 		</div>
 	)
 }
