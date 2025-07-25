@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 
+import * as Modals from './components/modals/';
 import Post from "./components/Post"
 import Panel from "./components/Panel";
 import Modal from "./components/Modal";
@@ -12,57 +13,45 @@ import { ThumbsUp, Clock, TrendingUp, Repeat } from "react-feather";
 
 export default function App() {
 
-	const [ showPanel, setShowPanel ] = useState(true);
+	const [ showPanel, setShowPanel ] = useState(false);
 	const [ showModal, setShowModal ] = useState(false);
 	const [ ModalContent, setModalContent ] = useState(0);
 	const [ showOverlay, setShowOverlay ] = useState(false);
 	const [ logged, setLogged ] = useState(false);
 
-	const ModalContents = [
-		<p>Press F5 now!</p>
-	]
-
 	const togglePanel = () => {
 		setShowPanel(!showPanel);
-		toggleOverlay();
+		setShowOverlay(true);
 	}
 
 	const toggleModal = () => {
 		setShowModal(!showModal);
-		toggleOverlay();
+		setShowOverlay(true);
 	}
 
-	const toggleOverlay = () => {
-		setShowOverlay(!showOverlay)
+	const hideAll = () => {
+		setShowPanel(false);
+		setShowModal(false);
+		setShowOverlay(false);
 	}
 
-	const returnPanel = () => {
+	const panelWrapper = () => {
 
 		if (logged) {
-			return (
-
-				< Panel
-					slide={showPanel}
-					action={togglePanel}
-					options={
-						< PanelOption
-							text="Log out"
-							action={() => {alert("log out")}}
-						/>
-					}
-				/>
-
-			)
 		} else {
 			return (
 
 				< Panel
 					slide={showPanel}
-					action={togglePanel}
+					action={hideAll}
 					options={
 						< PanelOption
 							text="Register"
-							action={() => {alert("register")}}
+							action={()=>{
+								togglePanel()
+								toggleModal()
+								setModalContent(1)
+							}}
 						/>
 					}
 				/>
@@ -84,6 +73,11 @@ export default function App() {
 		)
 	}
 
+	const ModalContents = [
+		< Modals.Secret />,
+		< Modals.Register  register={()=>{}/*hideAll*/} cancel={hideAll} />
+	]
+
 	useEffect(() => {
 
 		const sessionToken = localStorage.getItem("sessionToken");
@@ -98,8 +92,8 @@ export default function App() {
 	return (
 		<>
 
-			{returnPanel()}
-			< Modal show={showModal} content={ModalContents[ModalContent]} />
+			{ panelWrapper() }
+			< Modal show={showModal} action={hideAll} content={ModalContents[ModalContent]} />
 			< Overlay show={showOverlay} />
 
 			<header>
@@ -117,7 +111,7 @@ export default function App() {
 					}}
 				>Mini-React</h4>
 				< ApiStatus  />
-				<div> <small>v 1.0.0</small> </div>
+				<small>v 1.0.0</small>
 
 			</header>
 

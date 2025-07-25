@@ -14,11 +14,17 @@ export interface SectionProps {
 
 export interface PanelOptionProps {
 	text: string
-	action: () => any
+	action: () => void
 }
 
 export interface PanelProps {
 	slide: boolean
 	action: () => void
 	options: React.ReactNode
+}
+
+export interface ModalProps {
+	show: boolean
+	content: React.ReactNode
+	action: () => void
 }
