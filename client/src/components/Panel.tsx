@@ -19,7 +19,7 @@ export default function Panel( {slide, action, options}:PanelProps ) {
 
 				</div>
 
-				<small>Build 2507231901</small>
+				<small>Build 2507252101</small>
 
 			</div>
 			{slide ? <div id="panel-side" onClick={()=>{action()}}> </div> : null}

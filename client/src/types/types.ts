@@ -28,3 +28,8 @@ export interface ModalProps {
 	content: React.ReactNode
 	action: () => void
 }
+
+export interface Response {
+	ok: boolean
+	message: string
+}

@@ -1,8 +1,8 @@
-import { Router } from 'express'
-import { getStatusSupabase } from '../controllers/status'
+import { Router } from 'express';
+import { statusSupabase } from '../controllers/status';
 
-const router = Router()
+const router = Router();
 
-router.get('/status/supabase', getStatusSupabase)
+router.get('/status/supabase', statusSupabase);
 
-export default router
+export default router;

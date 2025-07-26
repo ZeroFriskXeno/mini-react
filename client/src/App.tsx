@@ -6,7 +6,7 @@ import Panel from "./components/Panel";
 import Modal from "./components/Modal";
 import Section from "./components/Section"
 import Overlay from "./components/Overlay";
-import ApiStatus from "./components/ApiStatus";
+import ApiStatus from "./components/api/ApiStatus";
 import PanelOption from "./components/PanelOption";
 
 import { ThumbsUp, Clock, TrendingUp, Repeat } from "react-feather";
@@ -18,6 +18,12 @@ export default function App() {
 	const [ ModalContent, setModalContent ] = useState(0);
 	const [ showOverlay, setShowOverlay ] = useState(false);
 	const [ logged, setLogged ] = useState(false);
+	const [ error, setError ] = useState("");
+
+	const toggler = () => {
+		toggleModal();
+		togglePanel();
+	}
 
 	const togglePanel = () => {
 		setShowPanel(!showPanel);
@@ -29,36 +35,20 @@ export default function App() {
 		setShowOverlay(true);
 	}
 
+	const forceShowPanel = () => {
+		setShowPanel(true);
+		setShowOverlay(true);
+	}
+
+	const forceShowModal = () => {
+		setShowModal(true);
+		setShowOverlay(true);
+	}
+
 	const hideAll = () => {
 		setShowPanel(false);
 		setShowModal(false);
 		setShowOverlay(false);
-	}
-
-	const panelWrapper = () => {
-
-		if (logged) {
-		} else {
-			return (
-
-				< Panel
-					slide={showPanel}
-					action={hideAll}
-					options={
-						< PanelOption
-							text="Register"
-							action={()=>{
-								togglePanel()
-								toggleModal()
-								setModalContent(1)
-							}}
-						/>
-					}
-				/>
-
-			)
-		}
-
 	}
 
 	const commonPost = () => {
@@ -73,9 +63,32 @@ export default function App() {
 		)
 	}
 
+	const panelWrapper = () => {
+
+		if (logged) {
+		} else {
+			return (
+
+				< Panel
+					slide={showPanel}
+					action={hideAll}
+					options={
+						< PanelOption
+							text="Register"
+							action={ () => { toggler(); setModalContent(1); }}
+						/>
+					}
+				/>
+
+			)
+		}
+
+	}
+
 	const ModalContents = [
 		< Modals.Secret />,
-		< Modals.Register  register={()=>{}/*hideAll*/} cancel={hideAll} />
+		< Modals.Register  register={()=>{}/*hideAll*/} cancel={hideAll} />,
+		< Modals.Error error={error} cancel={hideAll} />
 	]
 
 	useEffect(() => {
@@ -88,6 +101,18 @@ export default function App() {
 		}
 
 	}, [])
+
+	useEffect(() => {
+
+		const errorEffect = localStorage.getItem("error");
+		if ( errorEffect ) {
+			setError(errorEffect);
+			setModalContent(2);
+			forceShowModal();
+			localStorage.removeItem("error");
+		}
+
+	}, [error])
 
 	return (
 		<>
