@@ -13,14 +13,17 @@ export interface SectionProps {
 }
 
 export interface PanelOptionProps {
+	icon: React.ReactNode
 	text: string
 	action: () => void
 }
 
 export interface PanelProps {
+	logged: boolean
 	slide: boolean
-	action: () => void
-	options: React.ReactNode
+	close: () => void
+	onRegister: () => void
+	onLogin: () => void
 }
 
 export interface ModalProps {
@@ -32,4 +35,9 @@ export interface ModalProps {
 export interface Response {
 	ok: boolean
 	message: string
+}
+
+export interface AuthData {
+	username: string
+	password: string
 }

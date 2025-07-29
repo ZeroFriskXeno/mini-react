@@ -51,8 +51,8 @@ export const verifyCSRFToken = (req: Request, res: Response, next: NextFunction)
         });
     }
 
+	tokenStore.set(clientID, "");
+
     next();
 
 };
-
-// TODO get verification

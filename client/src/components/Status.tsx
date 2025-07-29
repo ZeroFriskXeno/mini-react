@@ -1,10 +1,9 @@
-import type { Response } from '../../types/types'
+import type { Response } from '../types/types'
 
 import { useEffect, useState } from 'react'
-import { fetchStatusSupabase } from '../../api/ApiStatus'
+import { fetchStatusSupabase } from '../api/Status'
 
 import { Circle } from 'react-feather'
-
 
 export default function Status() {
 
@@ -17,7 +16,6 @@ export default function Status() {
 			.catch(err => {
 				setError(err.message);
 				console.error(err);
-				localStorage.setItem("error", "Database Connection "+ err);
 			})
 	}, [])
 

@@ -81,12 +81,16 @@
 
 		.option {
 
-			@apply flex flex-col justify-between;
+			@apply flex flex-row;
 			@apply p-5 m-2.5;
 			@apply bg-blue-900;
 			@apply rounded-md;
 			@apply cursor-pointer;
 			@apply hover:bg-blue-800;
+
+			svg {
+				@apply mr-2.5;
+			}
 
 		}
 
@@ -103,10 +107,13 @@
 
 	#panel-side {
 
-		@apply flex flex-col;
 		@apply absolute;
-		@apply w-1/2 h-full p-5;
+		@apply flex flex-col;
+		@apply w-1/2 h-full;
+		@apply opacity-10;
+
 		@apply left-1/2;
+
 		@apply z-101;
 
 	}
@@ -131,6 +138,9 @@
 		@apply absolute;
 		@apply h-screen w-screen;
 		@apply z-101;
+		#text {
+			@apply opacity-10;
+		}
 	}
 
 }

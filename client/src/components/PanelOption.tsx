@@ -1,11 +1,9 @@
 import type { PanelOptionProps } from "../types/types"
 
-export default function PanelOption({text, action}:PanelOptionProps ) {
+export default function PanelOption({icon, text, action}:PanelOptionProps ) {
 	return (
-		<div
-			onClick={action}
-			className="option"
-		>
+		<div className="option" onClick={action} >
+			{icon}
 			{text}
 		</div>
 	)

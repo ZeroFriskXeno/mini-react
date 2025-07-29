@@ -13,10 +13,10 @@ export default function Modal({ show, content, action }:ModalProps ) {
 	return (
 
 		<div id="modal-back" onClick={clickHandler}>
-			<div id="modal" onClick={(e) => e.stopPropagation()} >
+			<div id="modal"  onClick={(e) => e.stopPropagation()} >
 				{content}
 			</div>
-			<small>Click anywhere outside to close the modal</small>
+			<small id="text">Click anywhere outside to close the modal</small>
 		</div>
 
 	)

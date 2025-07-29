@@ -1,9 +1,9 @@
 import { useState } from "react"
 import type { Response, AuthData } from "../../types/types"
 
-export default function Register(
-	{register, cancel, switcher }:
-	{register: (userData: AuthData)=>Promise<Response>, cancel: ()=>void, switcher: ()=>void} ) {
+export default function Login(
+	{login, cancel, switcher }:
+	{login: (userData: AuthData)=>Promise<Response>, cancel: ()=>void, switcher: ()=>void} ) {
 
 	const [ username, setUsername ] = useState("");
 	const [ password, setPassword ] = useState("");
@@ -17,8 +17,8 @@ export default function Register(
 	return (
 		<>
 
-			<h3 className="text-blue-950">Register</h3>
-			<p className="text-blue-950">Create a simple account to start making post on Mini-React. <br />Privacy? Nothing is tracked, used, etc.</p>
+			<h3 className="text-blue-950">Login</h3>
+			<p className="text-blue-950">Sign in to access your account and start posting.</p>
 
 			<small className="text-blue-950">Username</small>
 			<input
@@ -38,13 +38,13 @@ export default function Register(
 				disabled={fetching}
 			/>
 
-			<small className="text-blue-950">Already registered? <span onClick={switcher} className="underline cursor-pointer" >Sign in</span> </small> <br />
+			<small className="text-blue-950">Don't have an account? <span onClick={switcher} className="underline cursor-pointer" >Sign up</span> </small> <br />
 
 			<button
 				className="btn blue"
 				disabled={fetching}
-				onClick={() => {setFetching(true); register(data)}}>
-				<p>Register</p>
+				onClick={() => {setFetching(true); login(data)}}>
+				<p>Login</p>
 			</button>
 			<button
 				className="btn red"

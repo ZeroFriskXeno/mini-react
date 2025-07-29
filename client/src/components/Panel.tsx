@@ -1,7 +1,10 @@
 import type { PanelProps } from "../types/types"
 
+import PanelOption from "./PanelOption";
 
-export default function Panel( {slide, action, options}:PanelProps ) {
+import { User, UserCheck } from "react-feather";
+
+export default function Panel( { logged, slide, close: close, onRegister, onLogin }:PanelProps ) {
 	return (
 		<>
 			<div id="panel" className={!slide ? "right-3/2" : "right-1/2"}>
@@ -15,14 +18,24 @@ export default function Panel( {slide, action, options}:PanelProps ) {
 
 					<hr />
 
-					{options}
-
+					{!logged ? (
+						<>
+							<PanelOption icon={< UserCheck />} text="Register" action={onRegister} />
+							<PanelOption icon={< User />} text="Login" action={onLogin} />
+						</>
+					) : (
+						<>
+							{/* <PanelOption text="Profile" action={onProfile} /> */}
+							{/* <PanelOption text="Logout" action={onLogout} /> */}
+						</>
+					)}
 				</div>
 
-				<small>Build 2507252101</small>
+				<small>Build 2507281801</small>
 
 			</div>
-			{slide ? <div id="panel-side" onClick={()=>{action()}}> </div> : null}
+			{slide ? <div id="panel-side" onClick={()=>{close()}}> <small>Click anywhere outside to close the panel</small> </div> : null}
 		</>
-	)
-}
+	);
+};
+

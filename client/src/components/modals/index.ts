@@ -1,3 +1,5 @@
 export { default as Secret } from "./Secret"
 export { default as Register } from "./Register"
 export { default as Error } from "./Error"
+export { default as Success } from "./Success"
+export { default as Login } from "./Login"

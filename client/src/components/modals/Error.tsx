@@ -1,4 +1,4 @@
-export default function Error({error, cancel}: {error: string, cancel: ()=>void} ) {
+export default function Error({error, cancel}: {error: string | null, cancel: ()=>void} ) {
 	return (
 		<>
 			<h3 className="text-red-500">Error</h3>
