@@ -10,11 +10,7 @@ export const generateCSRFToken = (req: Request, res: Response) => {
 
 	tokenStore.set(clientID, csrfData);
 
-	res.cookie(
-		"csrf_token", tokenStore, {httpOnly: true, sameSite: "strict"}
-	).json(
-		{ ok: true, message: csrfData }
-	);
+	res.json( { ok: true, message: csrfData } );
 
 	console.log(tokenStore.get(clientID))
 

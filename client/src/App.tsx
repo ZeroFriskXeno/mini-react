@@ -10,7 +10,7 @@ import Section from "./components/Section"
 import Overlay from "./components/Overlay";
 import ApiStatus from "./components/Status";
 
-import { ThumbsUp, Clock, TrendingUp, Repeat } from "react-feather";
+import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare } from "react-feather";
 
 import { fetchRegister } from "./api/Register";
 import { fetchLogin } from "./api/Login";
@@ -60,6 +60,7 @@ export default function App() {
 
 			if (result.ok) {
 				setSuccess(result.message);
+				setLogged(true);
 			} else {
 				setError(result.message);
 			}
@@ -74,10 +75,10 @@ export default function App() {
 
 	const ModalContents = [
 		< Modals.Secret />,
-		< Modals.Register register={handleRegister} cancel={hideAll} switcher={()=>setModalContent(4)} />,
-		< Modals.Error error={error} cancel={() => {setError(null); hideAll();}} />,
-		< Modals.Success success={success} cancel={() => {setSuccess(null); hideAll();}} />,
-		< Modals.Login login={handleLogin} cancel={hideAll} switcher={()=>setModalContent(1)} />,
+		< Modals.Error		error={error} 				cancel={() => {setError(null); hideAll();}} />,
+		< Modals.Success	success={success} 			cancel={() => {setSuccess(null); hideAll();}} />,
+		< Modals.Register	register={handleRegister} 	cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
+		< Modals.Login		login={handleLogin} 		cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
 	]
 
 	useEffect(() => {
@@ -93,11 +94,11 @@ export default function App() {
 
 	useEffect(() => {
 		if (error && error.trim() !== '') {
-			setModalContent(2);
+			setModalContent(1);
 			forceShowModal();
 		}
 		if (success && success.trim() !== '') {
-			setModalContent(3);
+			setModalContent(2);
 			forceShowModal();
 		}
 	}, [error, success]);
@@ -106,7 +107,7 @@ export default function App() {
 		<>
 
 			< Panel slide={showPanel} close={hideAll} logged={logged}
-				onRegister={ () => { toggler(); setModalContent(1); } }
+				onRegister={ () => { toggler(); setModalContent(3); } }
 				onLogin={ ()=> { toggler(); setModalContent(4); } }
 			/>
 			< Modal show={showModal} action={hideAll} content={ModalContents[ModalContent]} />
@@ -114,10 +115,19 @@ export default function App() {
 
 			<header>
 
-				<img height="128 " width="128" src="https://cdn.simpleicons.org/react" onClick={togglePanel} />
-				<h4 onClick={() => { toggleModal(); setModalContent(0); }} > Mini-React </h4>
-				< ApiStatus  />
-				<small>v 1.0.0</small>
+				<div>
+					<img height="128 " width="128" src="https://cdn.simpleicons.org/react" onClick={togglePanel} />
+					<h4 onClick={() => { toggleModal(); setModalContent(0); }} > Mini-React </h4>
+					< ApiStatus  />
+					<small>v 1.0.0</small>
+				</div>
+
+				<div>
+					<div className="btn blue" onClick={logged ? ()=>{} : ()=>{setModalContent(4); forceShowModal();} }>
+						< MessageSquare />
+						<p className="ml-2">New Post</p>
+					</div>
+				</div>
 
 			</header>
 

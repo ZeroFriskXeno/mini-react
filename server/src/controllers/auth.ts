@@ -1,6 +1,7 @@
 import * as argon2 from "argon2";
 import { Request, Response } from "express";
 import { supabase } from "../supabase/client";
+import { generateJWTToken } from "../middleware/jtw";
 
 // !!!
 // 0 = normal
@@ -46,21 +47,23 @@ export const login = async (req: Request, res: Response) => {
 			.eq("username", username);
 
 		if (error || !data || data.length === 0)
-			return res.status(401).json({ ok: false, message: "Invalid credentials" });
+			return res.status(401).json({ ok: false, message: "Invalid credentials!" });
 
 		const user = data[0];
 
 		const isMatch = await argon2.verify(user.password, passwordBody);
 		if (!isMatch)
-			return res.status(401).json({ ok: false, message: "Invalid credentials" });
+			return res.status(401).json({ ok: false, message: "Invalid credentials!" });
 
 		if (user.status == 1)
-			return res.status(403).json({ ok: false, message: "User is disabled" });
+			return res.status(403).json({ ok: false, message: "User is disabled." });
 
-		res.status(200).json({ ok: true, message: "Login successful", data: user });
+		const jwtToken = generateJWTToken(user);
+
+		res.cookie("token", jwtToken, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 60 * 1000 });
+		res.status(200).json({ ok: true, message: "Login successful!", data: jwtToken });
 
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message });
 	}
 }
-

@@ -31,7 +31,7 @@ export default function Panel( { logged, slide, close: close, onRegister, onLogi
 					)}
 				</div>
 
-				<small>Build 2507281801</small>
+				<small>Build 2507291901</small>
 
 			</div>
 			{slide ? <div id="panel-side" onClick={()=>{close()}}> <small>Click anywhere outside to close the panel</small> </div> : null}
