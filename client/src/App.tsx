@@ -12,8 +12,7 @@ import ApiStatus from "./components/Status";
 
 import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare } from "react-feather";
 
-import { fetchRegister } from "./api/Register";
-import { fetchLogin } from "./api/Login";
+import { fetchRegister, fetchLogin, fetchMe } from "./api/Auth";
 
 export default function App() {
 
@@ -79,17 +78,14 @@ export default function App() {
 		< Modals.Success	success={success} 			cancel={() => {setSuccess(null); hideAll();}} />,
 		< Modals.Register	register={handleRegister} 	cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
 		< Modals.Login		login={handleLogin} 		cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
+		< Modals.Post		post={()=>{}} 			cancel={hideAll}/>,
 	]
 
 	useEffect(() => {
-
-		const sessionToken = localStorage.getItem("sessionToken");
-		if ( sessionToken ) {
-			// TODO check token
-		} else {
-			setLogged(false)
-		}
-
+		fetchMe()
+		.then(result => {
+			if (result.ok) setLogged(true);
+		})
 	}, [])
 
 	useEffect(() => {
@@ -123,7 +119,7 @@ export default function App() {
 				</div>
 
 				<div>
-					<div className="btn blue" onClick={logged ? ()=>{} : ()=>{setModalContent(4); forceShowModal();} }>
+					<div className="btn blue" onClick={logged ? ()=>{setModalContent(5); forceShowModal();} : ()=>{setModalContent(4); forceShowModal();} }>
 						< MessageSquare />
 						<p className="ml-2">New Post</p>
 					</div>

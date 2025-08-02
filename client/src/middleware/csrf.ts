@@ -1,8 +1,13 @@
 import type { Response } from "../types/types"
 
-const fetchCSRFToken = async (): Promise<string> => {
+const fetchCSRFToken = async (url: string, options: RequestInit = {}): Promise<string> => {
 
-	const res = await fetch('/api/auth/csrf');
+	const headers = {
+		'Origin-Page': url,
+		...options.headers
+	}
+
+	const res = await fetch('/api/auth/csrf', {headers});
 	if (!res.ok) throw new Error("Error fetching CSRF token");
 
 	const data: Response = await res.json();
@@ -18,11 +23,12 @@ export const fetchCSRF = async (url: string, options: RequestInit = {}): Promise
 		return fetch(url, options);
 	}
 
-	const csrfToken = await fetchCSRFToken();
+	const csrfToken = await fetchCSRFToken(url);
 
 	const headers = {
 		'Content-Type': 'application/json',
-		'X-CSRF-Token': csrfToken,
+		'CSRF-Token': csrfToken,
+		'Origin-Page': url,
 		...options.headers
 	}
 
