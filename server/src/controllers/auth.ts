@@ -1,11 +1,7 @@
 import * as argon2 from "argon2";
 import { Request, Response } from "express";
 import { supabase } from "../supabase/client";
-import { generateJWTToken } from "../middleware/jtw";
-
-// !!!
-// 0 = normal
-// 1 = disabled
+import { generateJWTToken } from "../middleware/jwt";
 
 export const register = async (req: Request, res: Response) => {
 
@@ -58,10 +54,15 @@ export const login = async (req: Request, res: Response) => {
 		if (user.status == 1)
 			return res.status(403).json({ ok: false, message: "User is disabled." });
 
-		const jwtToken = generateJWTToken(user);
+		const userData = {
+			"id": user.id,
+			"username": user.username
+		}
 
-		res.cookie("token", jwtToken, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 60 * 1000 });
-		res.status(200).json({ ok: true, message: "Login successful!", data: jwtToken });
+		const JWTtoken = generateJWTToken(userData);
+
+		res.cookie("token", JWTtoken, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 60 * 1000 });
+		res.status(200).json({ ok: true, message: "Login successful!", /*data: JWTtoken, userdata: userData*/ });
 
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message });

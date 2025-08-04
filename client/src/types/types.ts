@@ -24,6 +24,7 @@ export interface PanelProps {
 	close: () => void
 	onRegister: () => void
 	onLogin: () => void
+	newPost: () => void
 }
 
 export interface ModalProps {
@@ -37,7 +38,16 @@ export interface Response {
 	message: string
 }
 
-export interface AuthData {
+export interface UserData {
 	username: string
 	password: string
+	status?: number
+}
+
+export interface PostData {
+	id: number 			// id => user_id
+	username: string 	// usename
+	content: string
+	likes: number
+	time: string
 }

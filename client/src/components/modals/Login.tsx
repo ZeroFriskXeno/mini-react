@@ -1,15 +1,15 @@
 import { useState } from "react"
-import type { Response, AuthData } from "../../types/types"
+import type { Response, UserData } from "../../types/types"
 
 export default function Login(
 	{login, cancel, switcher }:
-	{login: (userData: AuthData)=>Promise<Response>, cancel: ()=>void, switcher: ()=>void} ) {
+	{login: (userData: UserData)=>Promise<Response>, cancel: ()=>void, switcher: ()=>void} ) {
 
 	const [ username, setUsername ] = useState("");
 	const [ password, setPassword ] = useState("");
 	const [ fetching, setFetching ] = useState(false);
 
-	const data: AuthData = {
+	const data: UserData = {
 		"username": username,
 		"password": password
 	}

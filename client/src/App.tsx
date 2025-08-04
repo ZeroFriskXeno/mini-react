@@ -1,76 +1,34 @@
-import type { AuthData, Response } from "./types/types";
-
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare } from "react-feather";
 
 import * as Modals from './components/modals/';
-// import Post from "./components/Post"
+import Post from "./components/Post"
 import Panel from "./components/Panel";
 import Modal from "./components/Modal";
 import Section from "./components/Section"
 import Overlay from "./components/Overlay";
 import ApiStatus from "./components/Status";
 
-import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare } from "react-feather";
-
-import { fetchRegister, fetchLogin, fetchMe } from "./api/Auth";
+import * as Hooks from "./hooks"
+import { useGlobalStore } from "./store/globalStore";
 
 export default function App() {
 
-	const [ showOverlay, setShowOverlay ] = useState(false);
-	const [ showPanel, setShowPanel ] = useState(false);
-	const [ showModal, setShowModal ] = useState(false);
-	const [ ModalContent, setModalContent ] = useState(0);
+	const { error, success, setError, setSuccess } = useGlobalStore();
 
-	const [ error, setError ] = useState<string | null>(null);
-	const [ success, setSuccess ] = useState<string | null>(null);
+	const {
+		logged,
+		handleRegister, handleLogin, handleMe
+	} = Hooks.useAuth();
 
-	const [ logged, setLogged ] = useState(false);
+	const {
+		showOverlay, showPanel, showModal, modalContent,
+		togglePanel, toggleModal, hideAll, forceShowModal, setModalContent, toggler
+	} = Hooks.useUIState();
 
-	const toggler = () => { toggleModal(); togglePanel(); }
-	const togglePanel = () => { setShowPanel(!showPanel); setShowOverlay(true); }
-	const toggleModal = () => { setShowModal(!showModal); setShowOverlay(true); }
-	// const forceShowPanel = () => { setShowPanel(true); setShowOverlay(true); }
-	const forceShowModal = () => { setShowModal(true); setShowOverlay(true); }
-	const hideAll = () => { setShowPanel(false); setShowModal(false); setShowOverlay(false); }
-
-	const handleRegister = async (userData: AuthData): Promise<Response> => {
-		try {
-
-			const result = await fetchRegister(userData);
-
-			if (result.ok) {
-				setSuccess(result.message);
-			} else {
-				setError(result.message);
-			}
-
-			return result;
-
-		} catch (error) {
-			setError((error as Error).message);
-			return { ok: false, message: (error as Error).message };
-		}
-	};
-
-	const handleLogin = async (userData: AuthData): Promise<Response> => {
-		try {
-
-			const result = await fetchLogin(userData);
-
-			if (result.ok) {
-				setSuccess(result.message);
-				setLogged(true);
-			} else {
-				setError(result.message);
-			}
-
-			return result;
-
-		} catch (error) {
-			setError((error as Error).message);
-			return { ok: false, message: (error as Error).message };
-		}
-	};
+	const {
+		handleNewPost
+	} = Hooks.usePost();
 
 	const ModalContents = [
 		< Modals.Secret />,
@@ -78,22 +36,19 @@ export default function App() {
 		< Modals.Success	success={success} 			cancel={() => {setSuccess(null); hideAll();}} />,
 		< Modals.Register	register={handleRegister} 	cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
 		< Modals.Login		login={handleLogin} 		cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
-		< Modals.Post		post={()=>{}} 			cancel={hideAll}/>,
+		< Modals.Post		post={handleNewPost} 		cancel={hideAll} />,
 	]
 
 	useEffect(() => {
-		fetchMe()
-		.then(result => {
-			if (result.ok) setLogged(true);
-		})
-	}, [])
+		handleMe();
+	}, []);
 
 	useEffect(() => {
-		if (error && error.trim() !== '') {
+		if (error?.trim()) {
 			setModalContent(1);
 			forceShowModal();
 		}
-		if (success && success.trim() !== '') {
+		if (success?.trim()) {
 			setModalContent(2);
 			forceShowModal();
 		}
@@ -103,10 +58,11 @@ export default function App() {
 		<>
 
 			< Panel slide={showPanel} close={hideAll} logged={logged}
-				onRegister={ () => { toggler(); setModalContent(3); } }
-				onLogin={ ()=> { toggler(); setModalContent(4); } }
+				onRegister={ 	()=>{ toggler(); setModalContent(3); } }
+				onLogin={ 		()=>{ toggler(); setModalContent(4); } }
+				newPost={ 		()=>{ toggler(); setModalContent(5); } }
 			/>
-			< Modal show={showModal} action={hideAll} content={ModalContents[ModalContent]} />
+			< Modal show={showModal} action={hideAll} content={ModalContents[modalContent]} />
 			< Overlay show={showOverlay} />
 
 			<header>
@@ -129,7 +85,9 @@ export default function App() {
 
 			<main>
 
-				< Section title="Most liked" icon={< ThumbsUp className="stroke-blue-950" />} posts={ <></> } />
+				< Section title="Most liked" icon={< ThumbsUp className="stroke-blue-950" />} posts={ <>
+					< Post author="hppsrc" liked={false} content="post" likesCount={5} postdate={new Date} />
+				</> } />
 				< Section title="Newest posts" icon={< Clock className="stroke-blue-950" />} posts={ <></> } />
 				< Section title="Trend" icon={< TrendingUp className="stroke-blue-950" />} posts={ <></> } />
 				< Section title="For you" icon={< Repeat className="stroke-blue-950" />} posts={ <></> } />

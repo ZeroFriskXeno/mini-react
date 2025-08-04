@@ -1,7 +1,7 @@
-import type { AuthData, Response } from "../types/types";
+import type { UserData, Response } from "../types/types";
 import { fetchCSRF } from "../middleware/csrf";
 
-export const fetchRegister = async (userData: AuthData): Promise<Response> => {
+export const fetchRegister = async (userData: UserData): Promise<Response> => {
 
 	const res = await fetchCSRF('/api/auth/register', {
 		method: 'POST',
@@ -12,7 +12,7 @@ export const fetchRegister = async (userData: AuthData): Promise<Response> => {
 
 }
 
-export const fetchLogin = async (userData: AuthData): Promise<Response> => {
+export const fetchLogin = async (userData: UserData): Promise<Response> => {
 
 	const res = await fetchCSRF('/api/auth/login', {
 		method: 'POST',

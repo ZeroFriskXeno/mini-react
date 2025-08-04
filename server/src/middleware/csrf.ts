@@ -14,7 +14,7 @@ export const generateCSRFToken = (req: Request, res: Response) => {
 
 	res.json( { ok: true, message: csrfData } );
 
-	console.log(`CREATE: ${clientID} => ${tokenStore.get(clientID)} | ORIGIN__: ${originPage}`);
+	console.log(`[CSRF] CREATE: ${clientID} => ${tokenStore.get(clientID)} | ORIGIN__: ${originPage}`);
 
 };
 
@@ -33,9 +33,9 @@ export const verifyCSRFToken = (req: Request, res: Response, next: NextFunction)
     if (!serverToken) return res.status(403).json({ ok: false, message: "CSRF token expired or invalid" });
 
 	const tokenCheck = !crypto.timingSafeEqual(Buffer.from(clientToken), Buffer.from(serverToken));
-    if (tokenCheck) return res.status(403).json({ ok: false, message: `Invalid CSRF token ${Buffer.from(clientToken)},  "===" , ${Buffer.from(serverToken)}` });
+    if (tokenCheck) return res.status(403).json({ ok: false, message: `Invalid CSRF token` });
 
-	console.log(`VERIFY: ${clientID} => ${serverToken} | ENDPOINT: ${originPage} => ${!tokenCheck} `);
+	console.log(`[CSRF] VERIFY: ${clientID} => ${serverToken} | ENDPOINT: ${originPage} => ${!tokenCheck} `);
 
 	tokenStore.set(clientID, "");
 

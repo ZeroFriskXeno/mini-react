@@ -2,9 +2,9 @@ import type { PanelProps } from "../types/types"
 
 import PanelOption from "./PanelOption";
 
-import { User, UserCheck } from "react-feather";
+import { MessageSquare, User, UserCheck } from "react-feather";
 
-export default function Panel( { logged, slide, close: close, onRegister, onLogin }:PanelProps ) {
+export default function Panel( { logged, slide, close: close, onRegister, onLogin, newPost }:PanelProps ) {
 	return (
 		<>
 			<div id="panel" className={!slide ? "right-3/2" : "right-1/2"}>
@@ -25,13 +25,14 @@ export default function Panel( { logged, slide, close: close, onRegister, onLogi
 						</>
 					) : (
 						<>
+							<PanelOption icon={< MessageSquare />} text="New post" action={newPost} />
 							{/* <PanelOption text="Profile" action={onProfile} /> */}
 							{/* <PanelOption text="Logout" action={onLogout} /> */}
 						</>
 					)}
 				</div>
 
-				<small>Build 2508021701</small>
+				<small>Build 2508032201</small>
 
 			</div>
 			{slide ? <div id="panel-side" onClick={()=>{close()}}> <small>Click anywhere outside to close the panel</small> </div> : null}

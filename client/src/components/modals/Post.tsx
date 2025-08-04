@@ -1,12 +1,21 @@
 import { useState } from "react"
+import type { PostData } from "../../types/types";
 
 export default function Post(
 	{post, cancel }:
-	{post: ()=>void, cancel: ()=>void} ) {
+	{post:  (postData: PostData)=>Promise<Response>, cancel: ()=>void} ) {
 
 	const [ input, setInput ] = useState("");
 	const [ counter, setCounter ] = useState(0);
 	const [ fetching, setFetching ] = useState(false);
+
+	const data: PostData = {
+		id: 0,
+		username: "",	// To set on POST fetch
+		content: input,
+		likes: 0,
+		time: ""		// To set on POST fetch
+	}
 
 	return (
 		<>
@@ -28,7 +37,7 @@ export default function Post(
 			<button
 				className="btn blue"
 				disabled={fetching}
-				onClick={() => {setFetching(true); post()}}>
+				onClick={() => {setFetching(true); post(data)}}>
 				<p>Post</p>
 			</button>
 			<button
