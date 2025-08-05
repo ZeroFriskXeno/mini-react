@@ -1,4 +1,4 @@
-import type { Response } from "../types/types"
+import type { ResponseData } from "../types/types"
 
 const fetchCSRFToken = async (url: string, options: RequestInit = {}): Promise<string> => {
 
@@ -10,7 +10,7 @@ const fetchCSRFToken = async (url: string, options: RequestInit = {}): Promise<s
 	const res = await fetch('/api/auth/csrf', {headers});
 	if (!res.ok) throw new Error("Error fetching CSRF token");
 
-	const data: Response = await res.json();
+	const data: ResponseData = await res.json();
 	return data.message;
 
 }

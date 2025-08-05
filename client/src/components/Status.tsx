@@ -1,4 +1,4 @@
-import type { Response } from '../types/types'
+import type { ResponseData } from '../types/types'
 
 import { useEffect, useState } from 'react'
 import { fetchStatusSupabase } from '../api/Status'
@@ -7,7 +7,7 @@ import { Circle } from 'react-feather'
 
 export default function Status() {
 
-	const [data, setData] = useState<Response | null>(null)
+	const [data, setData] = useState<ResponseData | null>(null)
 	const [error, setError] = useState<string | null>(null)
 
 	useEffect(() => {

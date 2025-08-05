@@ -14,7 +14,7 @@ export default function Post(
 		username: "",	// To set on POST fetch
 		content: input,
 		likes: 0,
-		time: ""		// To set on POST fetch
+		post_time: ""		// To set on POST fetch
 	}
 
 	return (

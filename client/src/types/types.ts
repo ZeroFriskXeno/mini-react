@@ -1,15 +1,15 @@
 export interface PostProps {
-	author: string
+	username: string
 	liked: boolean
-	likesCount: number
+	likes: number
 	content: string
-	postdate: Date
+	post_time: string
 }
 
 export interface SectionProps {
 	title: string
 	icon: React.ReactNode
-	posts: React.ReactNode
+  	posts: PostProps[];
 }
 
 export interface PanelOptionProps {
@@ -24,7 +24,7 @@ export interface PanelProps {
 	close: () => void
 	onRegister: () => void
 	onLogin: () => void
-	newPost: () => void
+	onNewPost: () => void
 }
 
 export interface ModalProps {
@@ -33,9 +33,10 @@ export interface ModalProps {
 	action: () => void
 }
 
-export interface Response {
+export interface ResponseData {
 	ok: boolean
 	message: string
+	data?: any
 }
 
 export interface UserData {
@@ -46,8 +47,8 @@ export interface UserData {
 
 export interface PostData {
 	id: number 			// id => user_id
-	username: string 	// usename
+	username: string
 	content: string
 	likes: number
-	time: string
+	post_time: string
 }

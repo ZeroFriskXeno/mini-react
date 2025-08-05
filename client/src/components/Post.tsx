@@ -1,11 +1,11 @@
 import type { PostProps } from "../types/types";
 
-import { useState } from "react";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 import { ThumbsUp, MoreVertical, ArrowUp, AlertTriangle } from "react-feather";
 
-export default function Post( {author, liked, likesCount, content, postdate}: PostProps ) {
+export default function Post( {username: author, liked, likes: likesCount, content, post_time}: PostProps ) {
 
 	const [ isExpanded, setExpanded ] = useState(false);
 	const [ isLiked, setLiked ] = useState(liked);
@@ -49,7 +49,7 @@ export default function Post( {author, liked, likesCount, content, postdate}: Po
 							{author}
 						</b>
 						<p className={!isExpanded ? "" : "exp" } >
-							{ !isExpanded ? content.slice(0,15).concat("...") : dayjs(postdate).format("DD/MM/YY HH:mm:ss") }
+							{ !isExpanded ? content.slice(0,15).concat("...") : <p>{dayjs(post_time).format('hh:mm A DD/MM/YY')}</p> }
 						</p>
 
 					</div>

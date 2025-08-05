@@ -5,9 +5,7 @@
 	"scripts": {
 		"client": "pnpm --filter client run dev",
 		"server": "pnpm --filter server run dev",
-		"app": "concurrently \"pnpm run client\" \"pnpm run server\"",
-		"install": "pnpm install",
-		"node-clean": "powershell -Command \"Get-ChildItem -Recurse -Directory -Force -Filter node_modules | Remove-Item -Recurse -Force\""
+		"app": "concurrently \"pnpm run client\" \"pnpm run server\""
 	},
 	"keywords": [],
 	"author": "hppsrc",

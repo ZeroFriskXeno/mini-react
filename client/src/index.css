@@ -72,8 +72,9 @@
 	#panel {
 
 		@apply flex flex-col;
+		@apply  p-5;
 		@apply absolute;
-		@apply w-1/2 h-full p-5;
+		@apply w-1/2 h-full max-h-full;
 		@apply bg-blue-950;
 		@apply z-101;
 
@@ -101,7 +102,13 @@
 		}
 
 		#panel-mid {
-			@apply flex-1 m-5;
+			@apply flex-1 m-1;
+			@apply max-h-full overflow-y-auto overflow-x-hidden;
+
+		}
+
+		#panel-down>* {
+			@apply flex-1;
 		}
 
 	}

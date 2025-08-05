@@ -62,7 +62,7 @@ export const login = async (req: Request, res: Response) => {
 		const JWTtoken = generateJWTToken(userData);
 
 		res.cookie("token", JWTtoken, { httpOnly: true, secure: process.env.NODE_ENV === "production", maxAge: 60 * 1000 });
-		res.status(200).json({ ok: true, message: "Login successful!", /*data: JWTtoken, userdata: userData*/ });
+		res.status(200).json({ ok: true, message: "Login successful!" });
 
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message });

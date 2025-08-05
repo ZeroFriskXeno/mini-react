@@ -39,3 +39,22 @@ export const new_post = async (req: Request, res: Response) => {
 	}
 
 }
+
+export const get_post_likes = async (req: Request, res: Response) => {
+
+	try {
+
+		const { data, error } = await supabase
+			.from('posts')
+			.select()
+			.order("likes", { ascending: false })
+			.limit(5);
+
+		if (error) throw error;
+		res.json({ ok: true, message: "Most liked post fetched", data: data });
+
+	} catch (err) {
+		res.status(500).json({ ok: false, message: (err as Error).message  });
+	}
+
+}

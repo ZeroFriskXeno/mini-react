@@ -1,12 +1,12 @@
-import type { PostData, Response } from "../types/types";
+import type { PostData, PostProps, ResponseData } from "../types/types";
 
-import { fetchNewPost } from "../api/App";
+import { fetchNewPost, fetchPostLikes } from "../api/App";
 import { useGlobalStore } from "../store/globalStore";
 
 export const usePost = () => {
   	const { setError, setSuccess } = useGlobalStore();
 
-	const handleNewPost = async (postData: PostData): Promise<Response> => {
+	const handleNewPost = async (postData: PostData): Promise<ResponseData> => {
 
 		try {
 
@@ -23,9 +23,38 @@ export const usePost = () => {
 
 	};
 
+	const handlePostLikes = async (): Promise<PostProps[]> => {
+
+		try {
+
+			const result = await fetchPostLikes();
+			if (!result.ok || result.data == null) {
+				setError(result.message);
+				return [];
+			}
+
+			return result.data.map((post: any, i: number) => ({
+				index: i,
+				username: post.username,
+				liked: false,
+				likes: post.likes,
+				content: post.content,
+				post_time: post.post_time
+			}));
+
+		} catch (error) {
+			setError((error as Error).message);
+    		return [];
+		}
+
+	};
+
+	const handleNewPosts = async (): Promise<PostProps[]> => { return [] }
+	const handleTrending = async (): Promise<PostProps[]> => { return [] }
+	const handleForYou = async (): Promise<PostProps[]> => { return [] }
+
 	return {
-		setError, setSuccess,
-		handleNewPost
+		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleForYou
 	};
 
 };

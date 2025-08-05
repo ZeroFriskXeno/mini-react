@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+import type { PostProps } from "./types/types";
+
+import { useEffect, useState } from "react";
 import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare } from "react-feather";
 
-import * as Modals from './components/modals/';
-import Post from "./components/Post"
 import Panel from "./components/Panel";
 import Modal from "./components/Modal";
 import Section from "./components/Section"
 import Overlay from "./components/Overlay";
 import ApiStatus from "./components/Status";
+import * as Modals from './components/modals/';
 
 import * as Hooks from "./hooks"
 import { useGlobalStore } from "./store/globalStore";
@@ -15,6 +16,11 @@ import { useGlobalStore } from "./store/globalStore";
 export default function App() {
 
 	const { error, success, setError, setSuccess } = useGlobalStore();
+
+	const [mostLiked, setMostLiked] = useState<PostProps[]>([]);
+	const [newestPosts, setNewestPosts] = useState<PostProps[]>([]);
+	const [trending, setTrending] = useState<PostProps[]>([]);
+	const [forYou, setForYou] = useState<PostProps[]>([]);
 
 	const {
 		logged,
@@ -27,7 +33,7 @@ export default function App() {
 	} = Hooks.useUIState();
 
 	const {
-		handleNewPost
+		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleForYou
 	} = Hooks.usePost();
 
 	const ModalContents = [
@@ -40,18 +46,29 @@ export default function App() {
 	]
 
 	useEffect(() => {
-		handleMe();
+
+		const fetchData = async () => {
+			try {
+
+				handleMe();
+
+				setMostLiked(await handlePostLikes());
+				setNewestPosts(await handleNewPosts());
+				setTrending(await handleTrending());
+				setForYou(await handleForYou());
+
+			} catch (error) {
+				setError((error as Error).message);
+			}
+		};
+
+		fetchData();
+
 	}, []);
 
 	useEffect(() => {
-		if (error?.trim()) {
-			setModalContent(1);
-			forceShowModal();
-		}
-		if (success?.trim()) {
-			setModalContent(2);
-			forceShowModal();
-		}
+		if (error?.trim()) { setModalContent(1); forceShowModal(); }
+		if (success?.trim()) { setModalContent(2); forceShowModal(); }
 	}, [error, success]);
 
 	return (
@@ -60,7 +77,7 @@ export default function App() {
 			< Panel slide={showPanel} close={hideAll} logged={logged}
 				onRegister={ 	()=>{ toggler(); setModalContent(3); } }
 				onLogin={ 		()=>{ toggler(); setModalContent(4); } }
-				newPost={ 		()=>{ toggler(); setModalContent(5); } }
+				onNewPost={ 	()=>{ toggler(); setModalContent(5); } }
 			/>
 			< Modal show={showModal} action={hideAll} content={ModalContents[modalContent]} />
 			< Overlay show={showOverlay} />
@@ -85,12 +102,10 @@ export default function App() {
 
 			<main>
 
-				< Section title="Most liked" icon={< ThumbsUp className="stroke-blue-950" />} posts={ <>
-					< Post author="hppsrc" liked={false} content="post" likesCount={5} postdate={new Date} />
-				</> } />
-				< Section title="Newest posts" icon={< Clock className="stroke-blue-950" />} posts={ <></> } />
-				< Section title="Trend" icon={< TrendingUp className="stroke-blue-950" />} posts={ <></> } />
-				< Section title="For you" icon={< Repeat className="stroke-blue-950" />} posts={ <></> } />
+				<Section title="Most liked" 	icon={<ThumbsUp className="stroke-blue-950" />} 	posts={mostLiked} />
+				<Section title="Newest posts" 	icon={<Clock className="stroke-blue-950" />} 		posts={newestPosts} />
+				<Section title="Trend" 			icon={<TrendingUp className="stroke-blue-950" />} 	posts={trending} />
+				<Section title="For you" 		icon={<Repeat className="stroke-blue-950" />} 		posts={forYou} />
 
 			</main>
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { UserData, Response } from "../types/types";
+import type { UserData, ResponseData } from "../types/types";
 
 import { fetchRegister, fetchLogin, fetchMe } from "../api/Auth";
 import { useGlobalStore } from '../store/globalStore';
@@ -11,7 +11,7 @@ export const useAuth = () => {
 
 	const [logged, setLogged] = useState(false);
 
-	const handleRegister = async (userData: UserData): Promise<Response> => {
+	const handleRegister = async (userData: UserData): Promise<ResponseData> => {
 
 		try {
 
@@ -27,7 +27,7 @@ export const useAuth = () => {
 
 	};
 
-	const handleLogin = async (userData: UserData): Promise<Response> => {
+	const handleLogin = async (userData: UserData): Promise<ResponseData> => {
 
 		try {
 

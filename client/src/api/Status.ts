@@ -1,6 +1,6 @@
-import type { Response } from "../types/types"
+import type { ResponseData } from "../types/types"
 
-export const fetchStatusSupabase = async (): Promise<Response> => {
+export const fetchStatusSupabase = async (): Promise<ResponseData> => {
 	const res = await fetch('/api/status/supabase')
 	return res.json()
 }
