@@ -20,7 +20,7 @@ export default function App() {
 	const [mostLiked, setMostLiked] = useState<PostProps[]>([]);
 	const [newestPosts, setNewestPosts] = useState<PostProps[]>([]);
 	const [trending, setTrending] = useState<PostProps[]>([]);
-	const [forYou, setForYou] = useState<PostProps[]>([]);
+	const [random, setRandom] = useState<PostProps[]>([]);
 
 	const {
 		logged,
@@ -33,7 +33,7 @@ export default function App() {
 	} = Hooks.useUIState();
 
 	const {
-		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleForYou
+		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleRandom
 	} = Hooks.usePost();
 
 	const ModalContents = [
@@ -55,7 +55,7 @@ export default function App() {
 				setMostLiked(await handlePostLikes());
 				setNewestPosts(await handleNewPosts());
 				setTrending(await handleTrending());
-				setForYou(await handleForYou());
+				setRandom(await handleRandom());
 
 			} catch (error) {
 				setError((error as Error).message);
@@ -105,7 +105,7 @@ export default function App() {
 				<Section title="Most liked" 	icon={<ThumbsUp className="stroke-blue-950" />} 	posts={mostLiked} />
 				<Section title="Newest posts" 	icon={<Clock className="stroke-blue-950" />} 		posts={newestPosts} />
 				<Section title="Trend" 			icon={<TrendingUp className="stroke-blue-950" />} 	posts={trending} />
-				<Section title="For you" 		icon={<Repeat className="stroke-blue-950" />} 		posts={forYou} />
+				<Section title="Random" 		icon={<Repeat className="stroke-blue-950" />} 		posts={random} />
 
 			</main>
 

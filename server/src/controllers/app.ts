@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 
 import { supabase } from "../supabase/client";
 
-export const new_post = async (req: Request, res: Response) => {
+export const post_new = async (req: Request, res: Response) => {
 
 	try {
 
@@ -49,6 +49,56 @@ export const get_post_likes = async (req: Request, res: Response) => {
 			.select()
 			.order("likes", { ascending: false })
 			.limit(5);
+
+		if (error) throw error;
+		res.json({ ok: true, message: "Most liked post fetched", data: data });
+
+	} catch (err) {
+		res.status(500).json({ ok: false, message: (err as Error).message  });
+	}
+
+}
+
+export const get_post_new = async (req: Request, res: Response) => {
+
+	try {
+
+		const { data, error } = await supabase
+			.from('posts')
+			.select()
+			.order("post_time", { ascending: false })
+			.limit(5);
+
+		if (error) throw error;
+		res.json({ ok: true, message: "Most recent post fetched", data: data });
+
+	} catch (err) {
+		res.status(500).json({ ok: false, message: (err as Error).message  });
+	}
+
+}
+
+export const get_post_trend = async (req: Request, res: Response) => {
+
+	try {
+
+		const { data, error } = await supabase.rpc("get_trending_posts");
+
+		if (error) throw error;
+		res.json({ ok: true, message: "Most liked post fetched", data: data });
+
+	} catch (err) {
+		res.status(500).json({ ok: false, message: (err as Error).message  });
+	}
+
+}
+
+
+export const get_post_random = async (req: Request, res: Response) => {
+
+	try {
+
+		const { data, error } = await supabase.rpc("get_random_posts");
 
 		if (error) throw error;
 		res.json({ ok: true, message: "Most liked post fetched", data: data });

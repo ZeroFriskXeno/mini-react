@@ -5,7 +5,10 @@
 	"scripts": {
 		"client": "pnpm --filter client run dev",
 		"server": "pnpm --filter server run dev",
-		"app": "concurrently \"pnpm run client\" \"pnpm run server\""
+		"client-bun": "cd client && bun run dev",
+		"server-bun": "cd server && bun run dev",
+		"app": "concurrently \"pnpm run client\" \"pnpm run server\"",
+		"app-bun": "concurrently \"bun run client-bun\" \"bun run server-bun\""
 	},
 	"keywords": [],
 	"author": "hppsrc",

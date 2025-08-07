@@ -1,7 +1,8 @@
 import type { PostData, PostProps, ResponseData } from "../types/types";
 
-import { fetchNewPost, fetchPostLikes } from "../api/App";
 import { useGlobalStore } from "../store/globalStore";
+
+import { fetchNewPost, fetchPostLikes, fetchPostNew, fetchPostTrend, fetchPostRandom } from "../api/App";
 
 export const usePost = () => {
   	const { setError, setSuccess } = useGlobalStore();
@@ -49,12 +50,87 @@ export const usePost = () => {
 
 	};
 
-	const handleNewPosts = async (): Promise<PostProps[]> => { return [] }
-	const handleTrending = async (): Promise<PostProps[]> => { return [] }
-	const handleForYou = async (): Promise<PostProps[]> => { return [] }
+	const handleNewPosts = async (): Promise<PostProps[]> => {
+
+		try {
+
+			const result = await fetchPostNew();
+			if (!result.ok || result.data == null) {
+				setError(result.message);
+				return [];
+			}
+
+			return result.data.map((post: any, i: number) => ({
+				index: i,
+				username: post.username,
+				liked: false,
+				likes: post.likes,
+				content: post.content,
+				post_time: post.post_time
+			}));
+
+		} catch (error) {
+			setError((error as Error).message);
+    		return [];
+		}
+
+	}
+
+	const handleTrending = async (): Promise<PostProps[]> => {
+
+		try {
+
+			const result = await fetchPostTrend();
+			if (!result.ok || result.data == null) {
+				setError(result.message);
+				return [];
+			}
+
+			return result.data.map((post: any, i: number) => ({
+				index: i,
+				username: post.username,
+				liked: false,
+				likes: post.likes,
+				content: post.content,
+				post_time: post.post_time
+			}));
+
+		} catch (error) {
+			setError((error as Error).message);
+    		return [];
+		}
+
+	}
+
+	const handleRandom = async (): Promise<PostProps[]> => {
+
+		try {
+
+			const result = await fetchPostRandom();
+			if (!result.ok || result.data == null) {
+				setError(result.message);
+				return [];
+			}
+
+			return result.data.map((post: any, i: number) => ({
+				index: i,
+				username: post.username,
+				liked: false,
+				likes: post.likes,
+				content: post.content,
+				post_time: post.post_time
+			}));
+
+		} catch (error) {
+			setError((error as Error).message);
+    		return [];
+		}
+
+	}
+
 
 	return {
-		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleForYou
+		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleRandom
 	};
 
 };

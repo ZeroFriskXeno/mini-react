@@ -9,7 +9,7 @@ export default function Panel( { logged, slide, close: close, onRegister, onLogi
 		<>
 			<div id="panel" className={!slide ? "right-3/2" : "right-1/2"}>
 
-				<small className="absolute" >Build 2508032201</small>
+				<small className="absolute" >Build 2508071701</small>
 
 				<div id="panel-top">
 					<img height="80" width="80" src="https://cdn.simpleicons.org/react" />
