@@ -2,17 +2,39 @@ import type { PostData, PostProps, ResponseData } from "../types/types";
 
 import { useGlobalStore } from "../store/globalStore";
 
-import { fetchNewPost, fetchPostLikes, fetchPostNew, fetchPostTrend, fetchPostRandom } from "../api/App";
+import { fetchGetPostLikes, fetchGetPostNew, fetchGetPostTrend, fetchGetPostRandom, fetchPostNew, fetchPostLike } from "../api/App";
 
 export const usePost = () => {
   	const { setError, setSuccess } = useGlobalStore();
 
-	const handleNewPost = async (postData: PostData): Promise<ResponseData> => {
+	function modal(show: boolean, message: string) {
+		if (show) setSuccess(message);
+	}
+
+	const handlePostNew = async (postData: PostData): Promise<ResponseData> => {
 
 		try {
 
-			const result = await fetchNewPost(postData);
+			const result = await fetchPostNew(postData);
 			if (result.ok) setSuccess(result.message);
+
+			else setError(result.message);
+			return result;
+
+		} catch (error) {
+			setError((error as Error).message);
+			return { ok: false, message: (error as Error).message };
+		}
+
+	};
+
+	const handlePostLike = async (postData: PostData): Promise<ResponseData> => {
+
+		try {
+
+			const result = await fetchPostLike(postData);
+			const showmodal = result.modal || true;
+			if (result.ok) modal(showmodal, result.message);
 
 			else setError(result.message);
 			return result;
@@ -28,7 +50,7 @@ export const usePost = () => {
 
 		try {
 
-			const result = await fetchPostLikes();
+			const result = await fetchGetPostLikes();
 			if (!result.ok || result.data == null) {
 				setError(result.message);
 				return [];
@@ -36,6 +58,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
+				id: post.id,
 				username: post.username,
 				liked: false,
 				likes: post.likes,
@@ -54,7 +77,7 @@ export const usePost = () => {
 
 		try {
 
-			const result = await fetchPostNew();
+			const result = await fetchGetPostNew();
 			if (!result.ok || result.data == null) {
 				setError(result.message);
 				return [];
@@ -62,6 +85,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
+				id: post.id,
 				username: post.username,
 				liked: false,
 				likes: post.likes,
@@ -80,7 +104,7 @@ export const usePost = () => {
 
 		try {
 
-			const result = await fetchPostTrend();
+			const result = await fetchGetPostTrend();
 			if (!result.ok || result.data == null) {
 				setError(result.message);
 				return [];
@@ -88,6 +112,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
+				id: post.id,
 				username: post.username,
 				liked: false,
 				likes: post.likes,
@@ -106,7 +131,7 @@ export const usePost = () => {
 
 		try {
 
-			const result = await fetchPostRandom();
+			const result = await fetchGetPostRandom();
 			if (!result.ok || result.data == null) {
 				setError(result.message);
 				return [];
@@ -114,6 +139,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
+				id: post.id,
 				username: post.username,
 				liked: false,
 				likes: post.likes,
@@ -128,9 +154,9 @@ export const usePost = () => {
 
 	}
 
-
 	return {
-		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleRandom
+		handlePostNew, handlePostLike,
+		handlePostLikes, handleNewPosts, handleTrending, handleRandom
 	};
 
 };

@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 import { supabase } from "../supabase/client";
 
 export const post_new = async (req: Request, res: Response) => {
-
 	try {
 
 		const { id, username, content } = req.body;
@@ -37,11 +36,61 @@ export const post_new = async (req: Request, res: Response) => {
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message  });
 	}
-
 }
 
-export const get_post_likes = async (req: Request, res: Response) => {
+export const post_like = async (req: Request, res: Response) => {
+	try {
 
+		const { post_id, id: user_id } = req.body;
+
+		if (!post_id || !user_id) {
+			return res.status(400).json({ ok: false, message: "Missing post or user ID" });
+		}
+
+		const { data: existing_like, error: like_check_error } = await supabase
+			.from('likes')
+			.select('id')
+			.eq('user_id', user_id)
+			.eq('post_id', post_id)
+			.single();
+
+		if (like_check_error && like_check_error.code !== 'PGRST116') {
+			return res.status(500).json({ ok: false, message: "Error checking like" });
+		}
+
+		if (existing_like) {
+
+			const { error: delete_error } = await supabase
+				.from('likes')
+				.delete()
+				.eq('id', existing_like.id);
+
+			if (delete_error) {
+				return res.status(500).json({ ok: false, message: "Failed to unlike post" });
+			}
+
+			return res.status(200).json({ ok: true, message: "Like removed", modal: false });
+
+		} else {
+
+			const { error: insert_error } = await supabase
+				.from('likes')
+				.insert({ post_id, user_id });
+
+			if (insert_error) {
+				return res.status(500).json({ ok: false, message: "Failed to like post" });
+			}
+
+			return res.status(201).json({ ok: true, message: "Post liked", modal: false });
+
+		}
+
+	} catch (err) {
+		res.status(500).json({ ok: false, message: (err as Error).message });
+	}
+};
+
+export const get_post_likes = async (req: Request, res: Response) => {
 	try {
 
 		const { data, error } = await supabase
@@ -56,11 +105,9 @@ export const get_post_likes = async (req: Request, res: Response) => {
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message  });
 	}
-
 }
 
 export const get_post_new = async (req: Request, res: Response) => {
-
 	try {
 
 		const { data, error } = await supabase
@@ -75,11 +122,9 @@ export const get_post_new = async (req: Request, res: Response) => {
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message  });
 	}
-
 }
 
 export const get_post_trend = async (req: Request, res: Response) => {
-
 	try {
 
 		const { data, error } = await supabase.rpc("get_trending_posts");
@@ -90,12 +135,9 @@ export const get_post_trend = async (req: Request, res: Response) => {
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message  });
 	}
-
 }
 
-
 export const get_post_random = async (req: Request, res: Response) => {
-
 	try {
 
 		const { data, error } = await supabase.rpc("get_random_posts");
@@ -106,5 +148,4 @@ export const get_post_random = async (req: Request, res: Response) => {
 	} catch (err) {
 		res.status(500).json({ ok: false, message: (err as Error).message  });
 	}
-
 }

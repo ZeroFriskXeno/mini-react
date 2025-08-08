@@ -1,19 +1,41 @@
-import type { PostProps } from "../types/types";
+import type { PostData, PostProps } from "../types/types";
 
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ThumbsUp, MoreVertical, ArrowUp, AlertTriangle } from "react-feather";
 
-export default function Post( {username: author, liked, likes: likesCount, content, post_time}: PostProps ) {
+export default function Post( { id, username, liked, likes, content, post_time, likeAction, likeUpdate }: PostProps ) {
 
 	const [ isExpanded, setExpanded ] = useState(false);
-	const [ isLiked, setLiked ] = useState(liked);
+	const [ likesValue, setLikesValue ] = useState("");
+	const [ fetching, setFetching ] = useState(false);
 
 	const toggleExpanded = () => { setExpanded(!isExpanded); }
-	const like = () => { setLiked(!isLiked); }
 
-	const down = () => {
+	const data: PostData = {
+		"id": 0,		// ? on router.post('/app/post/like', ..., verifyJWTtoken, <= overwrites id for user_id
+		"post_id": id,	// * so using post_id? sends real post id
+		"username": username,
+		"content": content,
+		"likes": likes,
+		"post_time": post_time
+	}
+
+	const wrapperClick = async () => {
+		setFetching(true);
+		try {
+			await likeAction(data);
+			await likeUpdate();
+		} catch (err) {
+			console.error("Error al hacer like:", err);
+		} finally {
+			setFetching(false);
+		}
+	};
+
+
+	const extended = () => {
 		return (
 			<div className="down" >
 
@@ -21,35 +43,33 @@ export default function Post( {username: author, liked, likes: likesCount, conte
 					<span>{content}</span>
 				</div>
 
+				{/* <small>Post ID:{id}</small> */}
+
 				<div>
-					< AlertTriangle
-						className="img"
-						color="#f3f4f6"
-					/>
-					< ArrowUp
-						className="img"
-						onClick={toggleExpanded}
-						color="#f3f4f6"
-					/>
+					< AlertTriangle className="img" color="#f3f4f6" />
+					< ArrowUp className="img" color="#f3f4f6" onClick={toggleExpanded} />
 				</div>
 
 			</div>
 		)
 	}
 
+	useEffect(() => {
+		setLikesValue(String(likes));
+	}, [likes]);
+
 	return (
 		<>
 			<div className={!isExpanded ? "post" : "post-exp"} >
-
 				<div className="top">
 
 					<div className="left">
 
 						<b >
-							{author}
+							{username}
 						</b>
 						<p className={!isExpanded ? "" : "exp" } >
-							{ !isExpanded ? content.slice(0,15).concat("...") : <p>{dayjs(post_time).format('hh:mm A DD/MM/YY')}</p> }
+							{ !isExpanded ? content.slice(0,15).concat("...") : dayjs(post_time).format('hh:mm A DD/MM/YY') }
 						</p>
 
 					</div>
@@ -57,14 +77,13 @@ export default function Post( {username: author, liked, likes: likesCount, conte
 					<div className="right">
 
 						<div
-							className={!isLiked ? "likes " : "likes bg-blue-800" }
-							onClick={like}
+							className={ !liked ? "likes " : "likes bg-blue-800" }
+							onClick={ ()=>{ setFetching(true);  wrapperClick() } }
 						>
-							<p>{!isLiked ? likesCount : likesCount+1 }</p>
+							<p> {likesValue} </p>
 							< ThumbsUp
 								color="#f3f4f6"
-								fill={!isLiked ? "#22f0" : "#22f" }
-
+								fill={!liked ? "#22f0" : "#22f" }
 							/>
 						</div>
 
@@ -77,9 +96,7 @@ export default function Post( {username: author, liked, likes: likesCount, conte
 					</div>
 
 				</div>
-
-				{!isExpanded ?  null : down()}
-
+				{!isExpanded ?  null : extended()}
 			</div>
 		</>
 	)

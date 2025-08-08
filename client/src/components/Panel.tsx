@@ -4,12 +4,12 @@ import PanelOption from "./PanelOption";
 
 import { AlertTriangle, Clock, GitHub, Heart, Info, LogIn, LogOut, MessageSquare, User, UserCheck, UserMinus, UserPlus, UserX } from "react-feather";
 
-export default function Panel( { logged, slide, close: close, onRegister, onLogin, onNewPost }:PanelProps ) {
+export default function Panel( { logged, slide, close: close, onRegister, onLogin, onNewPost, onLogout }:PanelProps ) {
 	return (
 		<>
 			<div id="panel" className={!slide ? "right-3/2" : "right-1/2"}>
 
-				<small className="absolute" >Build 2508071701</small>
+				<small className="absolute" >Build 2508072301</small>
 
 				<div id="panel-top">
 					<img height="80" width="80" src="https://cdn.simpleicons.org/react" />
@@ -28,7 +28,7 @@ export default function Panel( { logged, slide, close: close, onRegister, onLogi
 					) : (
 						<>
 							<PanelOption icon={< MessageSquare />} text="New post" action={onNewPost} />
-							{/* <PanelOption icon={< LogOut />} text="Log out" action={onLogout} /> */}
+							<PanelOption icon={< LogOut />} text="Log out" action={onLogout} />
 							{/* <PanelOption icon={< UserMinus />} text="Delete user" action={onUserDelete} /> */}
 							{/* <PanelOption icon={< AlertTriangle />} text="Reports" action={onReportCheck} /> */}
 							{/* <PanelOption text="Profile" action={onProfile} /> */}

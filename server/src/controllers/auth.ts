@@ -69,6 +69,14 @@ export const login = async (req: Request, res: Response) => {
 	}
 }
 
+export const log_out = async (req: Request, res: Response) => {
+	try {
+		res.status(200).json({ ok: true, message: "Logged out successful!" });
+	} catch (err) {
+		res.status(500).json({ ok: false, message: (err as Error).message });
+	}
+}
+
 export const me = async (req: Request, res: Response) => {
 	try {
 		res.status(200).json({ ok: true, message: "Login successful!" });

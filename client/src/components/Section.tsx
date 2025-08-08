@@ -1,7 +1,10 @@
 import type { SectionProps } from "../types/types"
 import Post from "./Post"
 
-export default function Section( {title, icon, posts}: SectionProps ) {
+export default function Section(
+	{title, icon, posts, likeAction, likeUpdate}: SectionProps
+
+	 ) {
 	return (
 		<>
 			<div className="Section">
@@ -12,11 +15,9 @@ export default function Section( {title, icon, posts}: SectionProps ) {
 				{posts.map((post, i) => (
 					<Post
 						key={i}
-						username={post.username}
-						liked={false}
-						likes={post.likes}
-						content={post.content}
-						post_time={post.post_time}
+						{...post}
+						likeAction={likeAction}
+						likeUpdate={likeUpdate} // TODO fix type
 					/>
 				))}
 			</div>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { UserData, ResponseData } from "../types/types";
 
-import { fetchRegister, fetchLogin, fetchMe } from "../api/Auth";
+import { fetchPostRegister, fetchPostLogin, fetchPostMe, fetchLogout } from "../api/Auth";
 import { useGlobalStore } from '../store/globalStore';
 
 export const useAuth = () => {
@@ -15,7 +15,7 @@ export const useAuth = () => {
 
 		try {
 
-			const result = await fetchRegister(userData);
+			const result = await fetchPostRegister(userData);
 			if (result.ok) setSuccess(result.message);
 			else setError(result.message);
 			return result;
@@ -31,7 +31,7 @@ export const useAuth = () => {
 
 		try {
 
-			const result = await fetchLogin(userData);
+			const result = await fetchPostLogin(userData);
 
 			if (result.ok) {
 				setSuccess(result.message);
@@ -51,7 +51,7 @@ export const useAuth = () => {
 
 		try {
 
-			const result = await fetchMe();
+			const result = await fetchPostMe();
 
 			if (result.ok) setLogged(true);
 		} catch (error) {
@@ -61,10 +61,27 @@ export const useAuth = () => {
 
 	};
 
+	const handleLogout = async () => {
+
+		try {
+
+			const result = await fetchLogout();
+
+			if (result.ok) {
+				setSuccess(result.message);
+				setLogged(false);
+			} else setError(result.message);
+
+		} catch (error) {
+			setError((error as Error).message);
+			return { ok: false, message: (error as Error).message };
+		}
+
+	};
 	return {
 		logged,
 		setError, setSuccess, setLogged,
-		handleRegister, handleLogin, handleMe
+		handleRegister, handleLogin, handleMe, handleLogout
 	};
 
 };

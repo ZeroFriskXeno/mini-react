@@ -24,7 +24,7 @@ export default function App() {
 
 	const {
 		logged,
-		handleRegister, handleLogin, handleMe
+		handleRegister, handleLogin, handleMe, handleLogout
 	} = Hooks.useAuth();
 
 	const {
@@ -33,7 +33,8 @@ export default function App() {
 	} = Hooks.useUIState();
 
 	const {
-		handleNewPost, handlePostLikes, handleNewPosts, handleTrending, handleRandom
+		handlePostNew, handlePostLike,
+		handlePostLikes, handleNewPosts, handleTrending, handleRandom
 	} = Hooks.usePost();
 
 	const ModalContents = [
@@ -42,8 +43,16 @@ export default function App() {
 		< Modals.Success	success={success} 			cancel={() => {setSuccess(null); hideAll();}} />,
 		< Modals.Register	register={handleRegister} 	cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
 		< Modals.Login		login={handleLogin} 		cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
-		< Modals.Post		post={handleNewPost} 		cancel={hideAll} />,
+		< Modals.Post		post={handlePostNew} 		cancel={hideAll} />,
+		< Modals.Logout		logout={handleLogout} 		cancel={hideAll} />,
 	]
+
+	const updateLikes = async () =>{
+		setMostLiked(await handlePostLikes());
+		setNewestPosts(await handleNewPosts());
+		setTrending(await handleTrending());
+	}
+	// const updateRandom = async () => setRandom(await handleRandom());
 
 	useEffect(() => {
 
@@ -78,6 +87,7 @@ export default function App() {
 				onRegister={ 	()=>{ toggler(); setModalContent(3); } }
 				onLogin={ 		()=>{ toggler(); setModalContent(4); } }
 				onNewPost={ 	()=>{ toggler(); setModalContent(5); } }
+				onLogout={		()=>{ toggler(); setModalContent(6); }}
 			/>
 			< Modal show={showModal} action={hideAll} content={ModalContents[modalContent]} />
 			< Overlay show={showOverlay} />
@@ -102,10 +112,10 @@ export default function App() {
 
 			<main>
 
-				<Section title="Most liked" 	icon={<ThumbsUp className="stroke-blue-950" />} 	posts={mostLiked} />
-				<Section title="Newest posts" 	icon={<Clock className="stroke-blue-950" />} 		posts={newestPosts} />
-				<Section title="Trend" 			icon={<TrendingUp className="stroke-blue-950" />} 	posts={trending} />
-				<Section title="Random" 		icon={<Repeat className="stroke-blue-950" />} 		posts={random} />
+				<Section title="Most liked" 	icon={<ThumbsUp className="stroke-blue-950" />} 	posts={mostLiked}	likeAction={handlePostLike}	likeUpdate={updateLikes}/>
+				<Section title="Newest posts" 	icon={<Clock className="stroke-blue-950" />} 		posts={newestPosts} likeAction={handlePostLike}	likeUpdate={updateLikes}/>
+				<Section title="Trend" 			icon={<TrendingUp className="stroke-blue-950" />} 	posts={trending} 	likeAction={handlePostLike}	likeUpdate={updateLikes}/>
+				<Section title="Random" 		icon={<Repeat className="stroke-blue-950" />} 		posts={random} 		likeAction={handlePostLike}	/>
 
 			</main>
 

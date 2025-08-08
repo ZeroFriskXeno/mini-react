@@ -1,4 +1,4 @@
-import { sign, verify } from "jsonwebtoken";
+import { sign, verify,  } from "jsonwebtoken";
 import { env } from '../util/env';
 import { Request, Response, NextFunction } from "express"
 
@@ -26,7 +26,7 @@ export const generateJWTToken = (user: any) => {
 export const verifyJWTtoken = ( req: Request, res: Response, next: NextFunction ) => {
 
 	const JWTtoken = req.cookies?.token;
-	if (!JWTtoken) return res.status(401).json({ok: false, message: "User isn't logged or session was invalidated by server. Please, Log in again!"});
+	if (!JWTtoken) return res.status(401).json({ok: false, message: "First you have to log in!"});
 
 	try {
 		const decode = verify(JWTtoken, JWT_SECRET!);
@@ -41,11 +41,10 @@ export const verifyJWTtoken = ( req: Request, res: Response, next: NextFunction 
 export const extractJWTdata = ( req: Request, res: Response, next: NextFunction ) => {
 
 	const JWTtoken = req.cookies?.token;
-	if (!JWTtoken) return res.status(401).json({ok: false, message: "Usen isn't logged!" })
+	if (!JWTtoken) return res.status(401).json({ok: false, message: "User isn't logged!" })
 
 	const data =  verify(JWTtoken, JWT_SECRET!) as RequestUserData;
 	if( typeof data !== "object" || !("id" in data) ) throw new Error("Invalid token!");
-
 
 	console.log(`[JWT_] EXTRCT: => ${JSON.stringify(data)} `);
 
@@ -53,6 +52,19 @@ export const extractJWTdata = ( req: Request, res: Response, next: NextFunction 
 		...req.body,
 		...data
 	};
+
+	next();
+
+}
+
+export const destroyJWTdata = ( req: Request, res: Response, next: NextFunction ) => {
+
+	const JWTtoken = req.cookies?.token;
+	if (JWTtoken) return res.status(401).json({ok: false, message: "Missing cookie data" })
+
+	res.clearCookie("token");
+
+	console.log(`[JWT_] DESTRY: => ${JWTtoken.slice(0, 61).concat("...")}`);
 
 	next();
 
