@@ -72,12 +72,15 @@ export const useAuth = () => {
 				setLogged(false);
 			} else setError(result.message);
 
+			return result;
+
 		} catch (error) {
 			setError((error as Error).message);
 			return { ok: false, message: (error as Error).message };
 		}
 
 	};
+
 	return {
 		logged,
 		setError, setSuccess, setLogged,

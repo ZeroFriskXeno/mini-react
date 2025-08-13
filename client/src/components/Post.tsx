@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { ThumbsUp, MoreVertical, ArrowUp, AlertTriangle } from "react-feather";
 
-export default function Post( { id, username, liked, likes, content, post_time, likeAction, likeUpdate }: PostProps ) {
+export default function Post( { id, username, liked, likes, reports, content, post_time, likeAction, likeUpdate, reportAction }: PostProps ) {
 
 	const [ isExpanded, setExpanded ] = useState(false);
 	const [ likesValue, setLikesValue ] = useState("");
@@ -19,10 +19,11 @@ export default function Post( { id, username, liked, likes, content, post_time, 
 		"username": username,
 		"content": content,
 		"likes": likes,
+		"reports": reports,
 		"post_time": post_time
 	}
 
-	const wrapperClick = async () => {
+	const likeWrapper = async () => {
 		setFetching(true);
 		try {
 			await likeAction(data);
@@ -34,6 +35,15 @@ export default function Post( { id, username, liked, likes, content, post_time, 
 		}
 	};
 
+	const reportWrapper = () => {
+		reportAction(data);
+	};
+
+	const overlayFetching = () => {
+		return (
+			<p className="text-overlay absolute top-1/2 left-1/2 translate-[-50%]">...</p>
+		)
+	}
 
 	const extended = () => {
 		return (
@@ -46,7 +56,7 @@ export default function Post( { id, username, liked, likes, content, post_time, 
 				{/* <small>Post ID:{id}</small> */}
 
 				<div>
-					< AlertTriangle className="img" color="#f3f4f6" />
+					< AlertTriangle className="img" color="#f3f4f6" fill="#e5a13e" onClick={reportWrapper} />
 					< ArrowUp className="img" color="#f3f4f6" onClick={toggleExpanded} />
 				</div>
 
@@ -60,7 +70,8 @@ export default function Post( { id, username, liked, likes, content, post_time, 
 
 	return (
 		<>
-			<div className={!isExpanded ? "post" : "post-exp"} >
+			<div className={`relative ${!isExpanded ? "post" : "post-exp"} ${fetching ? "fetching" : ""} ` } >
+				{ fetching ? overlayFetching() : null }
 				<div className="top">
 
 					<div className="left">
@@ -78,7 +89,7 @@ export default function Post( { id, username, liked, likes, content, post_time, 
 
 						<div
 							className={ !liked ? "likes " : "likes bg-blue-800" }
-							onClick={ ()=>{ setFetching(true);  wrapperClick() } }
+							onClick={ likeWrapper }
 						>
 							<p> {likesValue} </p>
 							< ThumbsUp

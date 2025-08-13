@@ -1,4 +1,4 @@
-import type { PostProps } from "./types/types";
+import type { PostData, PostProps } from "./types/types";
 
 import { useEffect, useState } from "react";
 import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare } from "react-feather";
@@ -16,6 +16,7 @@ import { useGlobalStore } from "./store/globalStore";
 export default function App() {
 
 	const { error, success, setError, setSuccess } = useGlobalStore();
+	const [postToReport, setPostToReport] = useState<PostData | null>(null);
 
 	const [mostLiked, setMostLiked] = useState<PostProps[]>([]);
 	const [newestPosts, setNewestPosts] = useState<PostProps[]>([]);
@@ -33,26 +34,33 @@ export default function App() {
 	} = Hooks.useUIState();
 
 	const {
-		handlePostNew, handlePostLike,
+		handlePostNew, handlePostLike, handlePostReport,
 		handlePostLikes, handleNewPosts, handleTrending, handleRandom
 	} = Hooks.usePost();
 
 	const ModalContents = [
 		< Modals.Secret />,
-		< Modals.Error		error={error} 				cancel={() => {setError(null); hideAll();}} />,
-		< Modals.Success	success={success} 			cancel={() => {setSuccess(null); hideAll();}} />,
+		< Modals.Error		error={error} 				cancel={() => { setError(null); hideAll();} } />,
+		< Modals.Success	success={success} 			cancel={() => { setSuccess(null); hideAll();} } />,
 		< Modals.Register	register={handleRegister} 	cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
 		< Modals.Login		login={handleLogin} 		cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
 		< Modals.Post		post={handlePostNew} 		cancel={hideAll} />,
 		< Modals.Logout		logout={handleLogout} 		cancel={hideAll} />,
+		< Modals.Report		report={handlePostReport}	cancel={hideAll} post={postToReport}  />
 	]
 
 	const updateLikes = async () =>{
 		setMostLiked(await handlePostLikes());
 		setNewestPosts(await handleNewPosts());
 		setTrending(await handleTrending());
+		// setRandom(await handleRandom());
 	}
-	// const updateRandom = async () => setRandom(await handleRandom());
+
+	const reportWrapper = (postData: PostData) => {
+		setPostToReport(postData);
+		setModalContent(7);
+		forceShowModal();
+	}
 
 	useEffect(() => {
 
@@ -84,10 +92,10 @@ export default function App() {
 		<>
 
 			< Panel slide={showPanel} close={hideAll} logged={logged}
-				onRegister={ 	()=>{ toggler(); setModalContent(3); } }
+				onRegister={	()=>{ toggler(); setModalContent(3); } }
 				onLogin={ 		()=>{ toggler(); setModalContent(4); } }
-				onNewPost={ 	()=>{ toggler(); setModalContent(5); } }
-				onLogout={		()=>{ toggler(); setModalContent(6); }}
+				onNewPost={		()=>{ toggler(); setModalContent(5); } }
+				onLogout={		()=>{ toggler(); setModalContent(6); } }
 			/>
 			< Modal show={showModal} action={hideAll} content={ModalContents[modalContent]} />
 			< Overlay show={showOverlay} />
@@ -112,10 +120,10 @@ export default function App() {
 
 			<main>
 
-				<Section title="Most liked" 	icon={<ThumbsUp className="stroke-blue-950" />} 	posts={mostLiked}	likeAction={handlePostLike}	likeUpdate={updateLikes}/>
-				<Section title="Newest posts" 	icon={<Clock className="stroke-blue-950" />} 		posts={newestPosts} likeAction={handlePostLike}	likeUpdate={updateLikes}/>
-				<Section title="Trend" 			icon={<TrendingUp className="stroke-blue-950" />} 	posts={trending} 	likeAction={handlePostLike}	likeUpdate={updateLikes}/>
-				<Section title="Random" 		icon={<Repeat className="stroke-blue-950" />} 		posts={random} 		likeAction={handlePostLike}	/>
+				<Section title="Most liked" 	icon={<ThumbsUp className="stroke-blue-950" />} 	posts={mostLiked}	likeAction={handlePostLike}	likeUpdate={updateLikes}	reportAction={reportWrapper}/>
+				<Section title="Newest posts" 	icon={<Clock className="stroke-blue-950" />} 		posts={newestPosts} likeAction={handlePostLike}	likeUpdate={updateLikes}	reportAction={reportWrapper}/>
+				<Section title="Trend" 			icon={<TrendingUp className="stroke-blue-950" />} 	posts={trending} 	likeAction={handlePostLike}	likeUpdate={updateLikes}	reportAction={reportWrapper}/>
+				<Section title="Random" 		icon={<Repeat className="stroke-blue-950" />} 		posts={random} 		likeAction={handlePostLike}	likeUpdate={updateLikes}	reportAction={reportWrapper}/>
 
 			</main>
 

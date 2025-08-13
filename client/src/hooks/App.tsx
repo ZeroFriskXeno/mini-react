@@ -1,15 +1,11 @@
-import type { PostData, PostProps, ResponseData } from "../types/types";
+import type { PostData, PostProps, ReportData, ResponseData } from "../types/types";
 
 import { useGlobalStore } from "../store/globalStore";
 
-import { fetchGetPostLikes, fetchGetPostNew, fetchGetPostTrend, fetchGetPostRandom, fetchPostNew, fetchPostLike } from "../api/App";
+import { fetchGetPostLikes, fetchGetPostNew, fetchGetPostTrend, fetchGetPostRandom, fetchPostNew, fetchPostLike, fetchPostReport } from "../api/App";
 
 export const usePost = () => {
   	const { setError, setSuccess } = useGlobalStore();
-
-	function modal(show: boolean, message: string) {
-		if (show) setSuccess(message);
-	}
 
 	const handlePostNew = async (postData: PostData): Promise<ResponseData> => {
 
@@ -17,8 +13,8 @@ export const usePost = () => {
 
 			const result = await fetchPostNew(postData);
 			if (result.ok) setSuccess(result.message);
-
 			else setError(result.message);
+
 			return result;
 
 		} catch (error) {
@@ -33,10 +29,24 @@ export const usePost = () => {
 		try {
 
 			const result = await fetchPostLike(postData);
-			const showmodal = result.modal || true;
-			if (result.ok) modal(showmodal, result.message);
+			if (!result.ok) setError(result.message);
+			return result;
 
-			else setError(result.message);
+		} catch (error) {
+			setError((error as Error).message);
+			return { ok: false, message: (error as Error).message };
+		}
+
+	};
+
+	const handlePostReport = async (postData: PostData, reportData: ReportData): Promise<ResponseData> => {
+
+		try {
+
+			const result = await fetchPostReport(postData, reportData);
+			// if (result.ok) setSuccess(result.message);
+			// else setError(result.message);
+
 			return result;
 
 		} catch (error) {
@@ -58,12 +68,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
-				id: post.id,
-				username: post.username,
-				liked: false,
-				likes: post.likes,
-				content: post.content,
-				post_time: post.post_time
+				...post
 			}));
 
 		} catch (error) {
@@ -85,12 +90,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
-				id: post.id,
-				username: post.username,
-				liked: false,
-				likes: post.likes,
-				content: post.content,
-				post_time: post.post_time
+				... post
 			}));
 
 		} catch (error) {
@@ -112,12 +112,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
-				id: post.id,
-				username: post.username,
-				liked: false,
-				likes: post.likes,
-				content: post.content,
-				post_time: post.post_time
+				... post
 			}));
 
 		} catch (error) {
@@ -139,12 +134,7 @@ export const usePost = () => {
 
 			return result.data.map((post: any, i: number) => ({
 				index: i,
-				id: post.id,
-				username: post.username,
-				liked: false,
-				likes: post.likes,
-				content: post.content,
-				post_time: post.post_time
+				... post
 			}));
 
 		} catch (error) {
@@ -155,7 +145,7 @@ export const usePost = () => {
 	}
 
 	return {
-		handlePostNew, handlePostLike,
+		handlePostNew, handlePostLike, handlePostReport,
 		handlePostLikes, handleNewPosts, handleTrending, handleRandom
 	};
 

@@ -1,7 +1,7 @@
 import { useState } from "react"
-import type { ResponseData, UserData } from "../../types/types"
+import type { ResponseData } from "../../types/types"
 
-export default function Login(
+export default function Logout(
 	{logout, cancel }:
 	{logout: ()=>Promise<ResponseData>, cancel: ()=>void} ) {
 	const [ fetching, setFetching ] = useState(false);
@@ -13,19 +13,18 @@ export default function Login(
 			<p className="text-blue-950">Are you sure do you want to log out?</p>
 
 			<button
-				className="btn blue"
-				disabled={fetching}
-				onClick={cancel}>
-				<p>No</p>
-			</button>
-			<button
 				className="btn red"
 				disabled={fetching}
 				onClick={() => {setFetching(true); logout()}}>
 				<p>Yes</p>
 			</button>
+			<button
+				className="btn blue"
+				disabled={fetching}
+				onClick={cancel}>
+				<p>No</p>
+			</button>
 
 		</>
 	)
-
 }

@@ -6,5 +6,4 @@ export default function Error({error, cancel}: {error: string | null, cancel: ()
 			<button className="btn red" onClick={cancel}><p>Ok</p></button>
 		</>
 	)
-
 }

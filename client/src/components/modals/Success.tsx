@@ -6,5 +6,4 @@ export default function Success({success, cancel}: {success: string | null, canc
 			<button className="btn blue" onClick={cancel}><p>Ok</p></button>
 		</>
 	)
-
 }

@@ -1,4 +1,4 @@
-import type { ResponseData, PostData } from "../types/types";
+import type { ResponseData, PostData, ReportData } from "../types/types";
 
 import { fetchCSRF } from "../middleware/csrf";
 
@@ -18,6 +18,17 @@ export const fetchPostLike = async (postData: PostData): Promise<ResponseData> =
 	const res = await fetchCSRF('/api/app/post/like', {
 		method: 'POST',
 		body: JSON.stringify(postData)
+	})
+
+	return res.json();
+
+}
+
+export const fetchPostReport = async (postData: PostData, reportData: ReportData): Promise<ResponseData> => {
+
+	const res = await fetchCSRF('/api/app/post/report', {
+		method: 'POST',
+		body: JSON.stringify({ ...postData, ...reportData })
 	})
 
 	return res.json();

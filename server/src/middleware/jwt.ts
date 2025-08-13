@@ -14,7 +14,7 @@ export const generateJWTToken = (user: any) => {
 	const JWTtoken = sign(
 		{ id: user.id, username: user.username },
 		JWT_SECRET!,
-		{ expiresIn: "10m" }
+		{ expiresIn: "1h" }
 	)
 
 	console.log(`[JWT_] CREATE: => ${JWTtoken.slice(0, 61).concat("...")}`);
@@ -60,7 +60,7 @@ export const extractJWTdata = ( req: Request, res: Response, next: NextFunction 
 export const destroyJWTdata = ( req: Request, res: Response, next: NextFunction ) => {
 
 	const JWTtoken = req.cookies?.token;
-	if (JWTtoken) return res.status(401).json({ok: false, message: "Missing cookie data" })
+	if (!JWTtoken) return res.status(401).json({ok: false, message: "Missing cookie data" })
 
 	res.clearCookie("token");
 

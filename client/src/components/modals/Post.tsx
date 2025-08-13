@@ -1,9 +1,9 @@
 import { useState } from "react"
-import type { PostData } from "../../types/types";
+import type { PostData, ResponseData } from "../../types/types";
 
 export default function Post(
 	{post, cancel }:
-	{post:  (postData: PostData)=>Promise<Response>, cancel: ()=>void} ) {
+	{post:  (postData: PostData)=>Promise<ResponseData>, cancel: ()=>void} ) {
 
 	const [ input, setInput ] = useState("");
 	const [ counter, setCounter ] = useState(0);
@@ -11,10 +11,11 @@ export default function Post(
 
 	const data: PostData = {
 		id: 0,
-		username: "",	// To set on POST fetch
+		username: "",
 		content: input,
 		likes: 0,
-		post_time: ""		// To set on POST fetch
+		reports: 0,
+		post_time: ""
 	}
 
 	return (
@@ -49,5 +50,4 @@ export default function Post(
 
 		</>
 	)
-
 }
