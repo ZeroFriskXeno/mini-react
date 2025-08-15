@@ -44,3 +44,14 @@ export const fetchLogout = async (): Promise<ResponseData> => {
 	return res.json();
 
 }
+
+export const fetchDeleteUser = async (userData: UserData): Promise<ResponseData> => {
+
+	const res = await fetchCSRF('/api/auth/delete_user', {
+		method: 'POST',
+		body: JSON.stringify(userData)
+	})
+
+	return res.json();
+
+}

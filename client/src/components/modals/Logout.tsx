@@ -2,8 +2,9 @@ import { useState } from "react"
 import type { ResponseData } from "../../types/types"
 
 export default function Logout(
-	{logout, cancel }:
-	{logout: ()=>Promise<ResponseData>, cancel: ()=>void} ) {
+	{ logout, 								cancel				}:
+	{ logout: ()=>Promise<ResponseData>,	cancel: ()=>void	} ) {
+
 	const [ fetching, setFetching ] = useState(false);
 
 	return (

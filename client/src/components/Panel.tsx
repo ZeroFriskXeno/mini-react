@@ -1,15 +1,17 @@
+import { APP_BUILD } from "../store/global";
 import type { PanelProps } from "../types/types"
 
 import PanelOption from "./PanelOption";
 
-import { AlertTriangle, Clock, GitHub, Heart, Info, LogIn, LogOut, MessageSquare, User, UserCheck, UserMinus, UserPlus, UserX } from "react-feather";
+import { Clock, GitHub, LogIn, LogOut, MessageSquare, UserMinus, UserPlus, X  } from "react-feather";
 
-export default function Panel( { logged, slide, close: close, onRegister, onLogin, onNewPost, onLogout }:PanelProps ) {
+export default function Panel( { logged, slide, close: close, onRegister, onLogin, onNewPost, onLogout, onUserDelete, onChangelog }:PanelProps ) {
 	return (
 		<>
+
 			<div id="panel" className={!slide ? "right-3/2" : "right-1/2"}>
 
-				<small className="absolute" >Build 2508122301</small>
+				< X className="absolute" id="close" onClick={()=>{close()}} />
 
 				<div id="panel-top">
 					<img height="80" width="80" src="https://cdn.simpleicons.org/react" />
@@ -28,28 +30,30 @@ export default function Panel( { logged, slide, close: close, onRegister, onLogi
 					) : (
 						<>
 							<PanelOption icon={< MessageSquare />} text="New post" action={onNewPost} />
-							<PanelOption icon={< LogOut />} text="Log out" action={onLogout} />
-							{/* <PanelOption icon={< UserMinus />} text="Delete user" action={onUserDelete} /> */}
 							{/* <PanelOption icon={< AlertTriangle />} text="Reports" action={onReportCheck} /> */}
-							{/* <PanelOption text="Profile" action={onProfile} /> */}
-							{/* <PanelOption text="Logout" action={onLogout} /> */}
+							<PanelOption icon={< LogOut />} text="Log out" action={onLogout} />
+							<PanelOption icon={< UserMinus />} text="Delete user" action={onUserDelete} />
 						</>
 					)}
 
-					{/* <PanelOption icon={< Clock />} text="Changelog" action={onChangelogCheck} /> */}
+					<PanelOption icon={< Clock />} text="Changelog" action={onChangelog} />
+
 
 				</div>
 
 				<hr />
 
 				<div id="panel-down" className="flex items-end" >
-					<PanelOption icon={< Heart fill="#f22" />} text="Check the credits!" action={()=>window.open("https://github.com/hppsrc/mini-react/blob/main/CREDITS.md", "_blank")} />
-					<PanelOption icon={< GitHub />} text="Check the source code!" action={()=>window.open("https://github.com/hppsrc/mini-react", "_blank")} />
-					{/* <PanelOption icon={< Info />} text="About this" action={()=>{}} /> */}
+					<PanelOption icon={< GitHub />} text="Source code!" action={()=>window.open("https://github.com/hppsrc/mini-react", "_blank")} />
 				</div>
 
 			</div>
-			{slide ? <div id="panel-side" onClick={()=>{close()}}> <small>Click anywhere outside to close the panel</small> </div> : null}
+
+			{slide ? <div id="panel-side" onClick={()=>{close()}}>
+				<small>Click anywhere outside to close the panel</small>
+				<small>Build {APP_BUILD}</small>
+			</div> : null}
+
 		</>
 	);
 };

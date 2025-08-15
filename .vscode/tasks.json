@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+		"label": "Update Gloabl Build",
+		"type": "shell",
+		"command": "powershell",
+		"args": [
+			"-ExecutionPolicy", "Bypass",
+			"-File", "${workspaceFolder}/.vscode/scripts/update_build.ps1"
+		],
+		"problemMatcher": [],
+		"group": "build"
+		}
+	]
+}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import type { UserData, ResponseData } from "../types/types";
 
-import { fetchPostRegister, fetchPostLogin, fetchPostMe, fetchLogout } from "../api/Auth";
+import { fetchPostRegister, fetchPostLogin, fetchPostMe, fetchLogout, fetchDeleteUser } from "../api/Auth";
 import { useGlobalStore } from '../store/globalStore';
 
 export const useAuth = () => {
@@ -81,10 +81,33 @@ export const useAuth = () => {
 
 	};
 
+	const handleDeleteUser = async (userData: UserData): Promise<ResponseData> => {
+
+		try {
+
+			const result = await fetchDeleteUser(userData);
+
+			if (result.ok) {
+				setSuccess(result.message);
+				setLogged(false);
+				setTimeout(() => {
+					location.reload()
+				}, 500);
+			} else setError(result.message);
+
+			return result;
+
+		} catch (error) {
+			setError((error as Error).message);
+			return { ok: false, message: (error as Error).message };
+		}
+
+	};
+
 	return {
 		logged,
 		setError, setSuccess, setLogged,
-		handleRegister, handleLogin, handleMe, handleLogout
+		handleRegister, handleLogin, handleMe, handleLogout, handleDeleteUser
 	};
 
 };

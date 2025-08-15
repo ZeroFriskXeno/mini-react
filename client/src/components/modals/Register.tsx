@@ -2,8 +2,8 @@ import { useState } from "react"
 import type { ResponseData, UserData } from "../../types/types"
 
 export default function Register(
-	{register, cancel, switcher }:
-	{register: (userData: UserData)=>Promise<ResponseData>, cancel: ()=>void, switcher: ()=>void} ) {
+	{ register, 												cancel, 			switcher			}:
+	{ register: (userData: UserData)=>Promise<ResponseData>,	cancel: ()=>void,	switcher: ()=>void	} ) {
 
 	const [ username, setUsername ] = useState("");
 	const [ password, setPassword ] = useState("");

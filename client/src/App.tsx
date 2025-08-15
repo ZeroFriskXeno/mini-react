@@ -12,6 +12,7 @@ import * as Modals from './components/modals/';
 
 import * as Hooks from "./hooks"
 import { useGlobalStore } from "./store/globalStore";
+import { APP_BUILD, APP_VERSION } from "./store/global";
 
 export default function App() {
 
@@ -25,7 +26,7 @@ export default function App() {
 
 	const {
 		logged,
-		handleRegister, handleLogin, handleMe, handleLogout
+		handleRegister, handleLogin, handleMe, handleLogout, handleDeleteUser
 	} = Hooks.useAuth();
 
 	const {
@@ -39,14 +40,16 @@ export default function App() {
 	} = Hooks.usePost();
 
 	const ModalContents = [
-		< Modals.Secret />,
-		< Modals.Error		error={error} 				cancel={() => { setError(null); hideAll();} } />,
-		< Modals.Success	success={success} 			cancel={() => { setSuccess(null); hideAll();} } />,
-		< Modals.Register	register={handleRegister} 	cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
-		< Modals.Login		login={handleLogin} 		cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
-		< Modals.Post		post={handlePostNew} 		cancel={hideAll} />,
-		< Modals.Logout		logout={handleLogout} 		cancel={hideAll} />,
-		< Modals.Report		report={handlePostReport}	cancel={hideAll} post={postToReport}  />
+		/*0*/ < Modals.Secret />,
+		/*1*/ < Modals.Error		error={error} 					cancel={() => { setError(null); hideAll();} } />,
+		/*2*/ < Modals.Success	success={success} 				cancel={() => { setSuccess(null); hideAll();} } />,
+		/*3*/ < Modals.Register	register={handleRegister} 		cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
+		/*4*/ < Modals.Login		login={handleLogin} 			cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
+		/*5*/ < Modals.Post		post={handlePostNew} 			cancel={hideAll} />,
+		/*6*/ < Modals.Logout		logout={handleLogout} 			cancel={hideAll} />,
+		/*7*/ < Modals.DeleteUser	deleteUser={handleDeleteUser} 	cancel={hideAll} />,
+		/*8*/ < Modals.Report		report={handlePostReport}		cancel={hideAll} post={postToReport} />,
+		/*9*/ < Modals.Changelog	cancel={hideAll} />
 	]
 
 	const updateLikes = async () =>{
@@ -58,7 +61,7 @@ export default function App() {
 
 	const reportWrapper = (postData: PostData) => {
 		setPostToReport(postData);
-		setModalContent(7);
+		setModalContent(8);
 		forceShowModal();
 	}
 
@@ -81,12 +84,22 @@ export default function App() {
 
 		fetchData();
 
+		const build = localStorage.getItem("APP_BUILD");
+		if (!build || build !== APP_BUILD ) {
+			localStorage.setItem("APP_BUILD", APP_BUILD);
+			setModalContent(9); forceShowModal();
+		}
+
 	}, []);
 
 	useEffect(() => {
 		if (error?.trim()) { setModalContent(1); forceShowModal(); }
 		if (success?.trim()) { setModalContent(2); forceShowModal(); }
 	}, [error, success]);
+
+	useEffect(() => {
+		updateLikes()
+	}, [logged]);
 
 	return (
 		<>
@@ -96,6 +109,8 @@ export default function App() {
 				onLogin={ 		()=>{ toggler(); setModalContent(4); } }
 				onNewPost={		()=>{ toggler(); setModalContent(5); } }
 				onLogout={		()=>{ toggler(); setModalContent(6); } }
+				onUserDelete={	()=>{ toggler(); setModalContent(7); } }
+				onChangelog={	()=>{ toggler(); setModalContent(9); } }
 			/>
 			< Modal show={showModal} action={hideAll} content={ModalContents[modalContent]} />
 			< Overlay show={showOverlay} />
@@ -106,7 +121,7 @@ export default function App() {
 					<img height="128 " width="128" src="https://cdn.simpleicons.org/react" onClick={togglePanel} />
 					<h4 onClick={() => { toggleModal(); setModalContent(0); }} > Mini-React </h4>
 					< ApiStatus  />
-					<small>v 1.0.0</small>
+					<small>v {APP_VERSION}</small>
 				</div>
 
 				<div>

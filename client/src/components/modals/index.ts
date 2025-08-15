@@ -1,3 +1,5 @@
+export { default as DeleteUser } from "./DeleteUser";
+export { default as Changelog } from "./Changelog";
 export { default as Register } from "./Register";
 export { default as Success } from "./Success";
 export { default as Secret } from "./Secret";

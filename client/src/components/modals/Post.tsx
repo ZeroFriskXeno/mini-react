@@ -2,8 +2,8 @@ import { useState } from "react"
 import type { PostData, ResponseData } from "../../types/types";
 
 export default function Post(
-	{post, cancel }:
-	{post:  (postData: PostData)=>Promise<ResponseData>, cancel: ()=>void} ) {
+	{ post, 												cancel				}:
+	{ post:  (postData: PostData)=>Promise<ResponseData>,	cancel: ()=>void	} ) {
 
 	const [ input, setInput ] = useState("");
 	const [ counter, setCounter ] = useState(0);

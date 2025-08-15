@@ -1,4 +1,5 @@
 import cors from "cors";
+import helmet from 'helmet';
 import express from "express"
 import { env } from "./util/env";
 import cookieParser from "cookie-parser";
@@ -11,7 +12,8 @@ import { http404 } from "./controllers/http";
 const app = express();
 const port = env.PORT || 3000;
 
-app.use(cors());
+app.use(helmet());
+app.use(cors({ origin: process.env.FRONTEND_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 

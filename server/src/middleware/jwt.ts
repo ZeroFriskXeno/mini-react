@@ -8,13 +8,14 @@ interface RequestUserData {
 }
 
 const JWT_SECRET = env.JWT_SECRET;
+const JWT_LIFETIME = "1h";
 
 export const generateJWTToken = (user: any) => {
 
 	const JWTtoken = sign(
 		{ id: user.id, username: user.username },
 		JWT_SECRET!,
-		{ expiresIn: "1h" }
+		{ expiresIn: JWT_LIFETIME }
 	)
 
 	console.log(`[JWT_] CREATE: => ${JWTtoken.slice(0, 61).concat("...")}`);

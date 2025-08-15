@@ -5,8 +5,8 @@ import dayjs from "dayjs";
 import { useGlobalStore } from "../../store/globalStore";
 
 export default function Report(
-	{post, 				report, 							cancel }:
-	{post: PostData | null, 	report: (postData: PostData, reportData: ReportData)=>Promise<ResponseData>, 	cancel: ()=>void} ) {
+	{ post, 					report, 																	cancel				}:
+	{ post: PostData | null, 	report: (postData: PostData, reportData: ReportData)=>Promise<ResponseData>, 	cancel: ()=>void} ) {
 
 	const { setError, setSuccess } = useGlobalStore();
 

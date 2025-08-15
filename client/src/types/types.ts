@@ -30,6 +30,8 @@ export interface PanelProps {
 	onLogin: () => void
 	onNewPost: () => void
 	onLogout: () => void
+	onUserDelete: () => void
+	onChangelog: () => void
 }
 
 export interface PanelOptionProps {
