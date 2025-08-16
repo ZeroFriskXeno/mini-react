@@ -85,9 +85,7 @@ PORT = 3000
 
 #### Supabase
 
-
 > [!WARNING] The database has a normalization level of degree 2
->
 > During development, a controlled denormalization was implemented to avoid refactoring all frontend code (using triggers). THIS SHOULDN'T CAUSE ISSUES. Future updates will modify this. Check the repository's ``schema.sql`` file for changes.
 
 Please see the [schema.md](docs/schema.md) file (a complete ``schema.sql`` file will be added soon).
