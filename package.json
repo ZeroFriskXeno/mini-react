@@ -3,12 +3,21 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
+
 		"client": "pnpm --filter client run dev",
-		"server": "pnpm --filter server run dev",
 		"client-bun": "cd client && bun run dev",
+		"client-build": "pnpm --filter client run build",
+		
+		"server": "pnpm --filter server run dev",
 		"server-bun": "cd server && bun run dev",
+		"server-build": "pnpm --filter server run build",
+
 		"app": "concurrently \"pnpm run client\" \"pnpm run server\"",
-		"app-bun": "concurrently \"bun run client-bun\" \"bun run server-bun\""
+		"app-bun": "concurrently \"bun run client-bun\" \"bun run server-bun\"",
+		"app-build": "concurrently \"pnpm run client-build\" \"pnpm run server-build\" "
+
+
+
 	},
 	"keywords": [],
 	"author": "hppsrc",
