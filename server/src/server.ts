@@ -13,7 +13,6 @@ import { http404 } from "./controllers/http";
 
 const app = express();
 const port = 3000;
-const isDev = env.ISDEV;
 
 app.use(helmet());
 app.use(cors({ origin: process.env.FRONTEND_ORIGIN, credentials: true }));
@@ -26,7 +25,7 @@ app.use("/api", appRoutes);
 
 const clientDist = path.join(__dirname, "../../client/dist");
 
-if (fs.existsSync(clientDist) && isDev) {
+if ( fs.existsSync(clientDist) ) {
 	app.use(express.static(clientDist));
 	app.get("/", (req, res) => {
 		res.sendFile(path.join(clientDist, "index.html"));
