@@ -3,27 +3,21 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-
 		"client": "pnpm --filter client run dev",
 		"client-bun": "cd client && bun run dev",
 		"client-build": "pnpm --filter client run build",
 		"client-clean": "powershell -Command \"if (Test-Path client/dist) { Remove-Item -Recurse -Force client/dist }\"",
-
 		"server": "pnpm --filter server run dev",
 		"server-bun": "cd server && bun run dev",
 		"server-build": "pnpm --filter server run build",
 		"server-clean": "powershell -Command \"if (Test-Path server/dist) { Remove-Item -Recurse -Force server/dist }\"",
 		"server-dist": "pnpm --filter server run dist",
-
 		"app": "concurrently \"pnpm run client\" \"pnpm run server\"",
 		"app-bun": "concurrently \"bun run client-bun\" \"bun run server-bun\"",
-		"app-build": "concurrently \"pnpm run client-build\" \"pnpm run server-build\" ",
-
+		"app-build": "concurrently \"pnpm run client-build\" \"pnpm run server-build\"",
 		"dist": "pnpm --filter server run dist",
 		"dist-clean": "pnpm run app-clean",
-
-  		"vercel-build": "pnpm run app-build"
-
+		"vercel-build": "pnpm run app-build"
 	},
 	"keywords": [],
 	"author": "hppsrc",
