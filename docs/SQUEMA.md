@@ -1,7 +1,7 @@
 ## Tables
 
-> [!WARNING] The database has a normalization level of degree 2
-> During development, a controlled denormalization was implemented to avoid refactoring all frontend code, hence the triggers. NOTHING BAD SHOULD HAPPEN. This will be modified again in the future. Check the repository's ``schema.sql`` file for changes.
+> [!WARNING] The database normalization level is 2 (NF2)
+> During development, a controlled denormalization was implemented to avoid refactoring all frontend code (using triggers). THIS ***SHOULDN'T*** CAUSE ISSUES. Future updates will modify this. Check the repository's ``schema.sql`` file for changes.
 
 ### `users` Table
 | Column    | Type        | Constraints                          | Default Value |

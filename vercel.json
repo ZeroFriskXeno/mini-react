@@ -1,0 +1,40 @@
+{
+	"version": 2,
+	"builds": [
+		{
+			"src": "client/package.json",
+			"use": "@vercel/static-build",
+			"config": {
+				"distDir": "client/dist",
+				"buildCommand": "cd client && npm run build"
+			}
+		},
+		{
+			"src": "server/src/server.ts",
+			"use": "@vercel/node",
+			"config": {
+				"includeFiles": "server/dist/**"
+			}
+		}
+	],
+	"routes": [
+		{
+			"src": "/api/(.*)",
+			"dest": "server/src/server.ts"
+		},
+		{
+			"src": "/(.*)",
+			"dest": "client/dist/index.html"
+		}
+	],
+	"functions": {
+		"server/src/server.ts": {
+			"maxDuration": 10
+		}
+	},
+	"buildCommand": "npm run app-build",
+	"outputDirectory": "client/dist",
+	"env": {
+		"NODE_ENV": "production"
+	}
+}

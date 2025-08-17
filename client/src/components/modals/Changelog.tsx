@@ -8,10 +8,13 @@ const changelogText = `# v1.0.0 (${APP_BUILD})
 - Added posting, liking, reporting
 
 ## Todo list
-- Add full responsive design
-- Edit/delete post
--
-
+- Responsive design.
+- Improve server security.
+- Code cleanup.
+- Post editing/deleting.
+- User badges.
+- Add more features.
+- QOL updates.
 `;
 
 	return (

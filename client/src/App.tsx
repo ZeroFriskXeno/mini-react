@@ -9,6 +9,7 @@ import Section from "./components/Section"
 import Overlay from "./components/Overlay";
 import ApiStatus from "./components/Status";
 import * as Modals from './components/modals/';
+import ReactIcon from "./assets/react.svg"
 
 import * as Hooks from "./hooks"
 import { useGlobalStore } from "./store/globalStore";
@@ -118,7 +119,7 @@ export default function App() {
 			<header>
 
 				<div>
-					<img height="128 " width="128" src="https://cdn.simpleicons.org/react" onClick={togglePanel} />
+					<img height="128 " width="128" src={ReactIcon} onClick={togglePanel} />
 					<h4 onClick={() => { toggleModal(); setModalContent(0); }} > Mini-React </h4>
 					< ApiStatus  />
 					<small>v {APP_VERSION}</small>

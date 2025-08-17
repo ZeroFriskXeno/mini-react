@@ -5,6 +5,8 @@ import PanelOption from "./PanelOption";
 
 import { Clock, GitHub, LogIn, LogOut, MessageSquare, UserMinus, UserPlus, X  } from "react-feather";
 
+import ReactIcon from "../assets/react.svg";
+
 export default function Panel( { logged, slide, close: close, onRegister, onLogin, onNewPost, onLogout, onUserDelete, onChangelog }:PanelProps ) {
 	return (
 		<>
@@ -14,7 +16,7 @@ export default function Panel( { logged, slide, close: close, onRegister, onLogi
 				< X className="absolute" id="close" onClick={()=>{close()}} />
 
 				<div id="panel-top">
-					<img height="80" width="80" src="https://cdn.simpleicons.org/react" />
+					<img height="80" width="80" src={ReactIcon} />
 					<h1 >Mini-React</h1>
 				</div>
 
