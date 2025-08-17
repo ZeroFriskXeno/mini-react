@@ -27,11 +27,6 @@
 			"dest": "client/dist/index.html"
 		}
 	],
-	"functions": {
-		"server/src/server.ts": {
-			"maxDuration": 10
-		}
-	},
 	"buildCommand": "npm run app-build",
 	"outputDirectory": "client/dist",
 	"env": {
