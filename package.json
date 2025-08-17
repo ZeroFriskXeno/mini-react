@@ -20,7 +20,9 @@
 		"app-build": "concurrently \"pnpm run client-build\" \"pnpm run server-build\" ",
 
 		"dist": "pnpm --filter server run dist",
-		"dist-clean": "pnpm run app-clean"
+		"dist-clean": "pnpm run app-clean",
+
+  		"vercel-build": "pnpm run app-build"
 
 	},
 	"keywords": [],
