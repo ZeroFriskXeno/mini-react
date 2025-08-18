@@ -18,7 +18,7 @@ app.use(helmet({
 	contentSecurityPolicy: {
 		directives: {
 			...helmet.contentSecurityPolicy.getDefaultDirectives(),
-			"frame-ancestors": ["'self'", "https://hppsrc.site"]
+			"frame-ancestors": ["'self'", "https://hppsrc.site", "https://www.hppsrc.site"]
 		}
 	}
 }));
