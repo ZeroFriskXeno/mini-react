@@ -8,7 +8,7 @@
 	<img height="64" width="64" src="https://cdn.simpleicons.org/express/black/white" />
 	<img height="64" width="64" src="https://cdn.simpleicons.org/supabase" />
 	<img height="64" width="64" src="https://cdn.simpleicons.org/postgresql" />
-	<img height="64" width="64" src="https://cdn.simpleicons.org/vercel/black/white" />
+	<img height="64" width="64" src="https://cdn.simpleicons.org/render/black/white" />
 </div>
 
 <br />
@@ -16,13 +16,13 @@
 Mini-React is a personal mini-project used to practice Fullstack development using
 <span><img height="12" width="12" src="https://cdn.simpleicons.org/react" /> React</span>
 for frontend,
-<span><img height="12" width="12" src="https://cdn.simpleicons.org/express/white" /> Express</span>
+<span><img height="12" width="12" src="https://cdn.simpleicons.org/express/black/white" /> Express</span>
 for backend, and
 <span><img height="12" width="12" src="https://cdn.simpleicons.org/supabase" /> Supabase</span>
 for database. Additionally, the
 <span><img height="12" width="12" src="https://cdn.simpleicons.org/TypeScript" /> TypeScript</span>
 language ensures better data integrity. Designed for PaaS platforms like
-<span><img height="12" width="12" src="https://cdn.simpleicons.org/vercel/white" /> Vercel</span>.
+<span><img height="12" width="12" src="https://cdn.simpleicons.org/render/black/white" /> Render</span>.
 
 Current version: **1.0.0**
 

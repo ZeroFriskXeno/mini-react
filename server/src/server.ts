@@ -14,7 +14,14 @@ import { http404 } from "./controllers/http";
 const app = express();
 const port = 3000;
 
-app.use(helmet());
+app.use(helmet({
+	contentSecurityPolicy: {
+		directives: {
+			...helmet.contentSecurityPolicy.getDefaultDirectives(),
+			"frame-ancestors": ["'self'", "https://hppsrc.site"]
+		}
+	}
+}));
 app.use(cors({ origin: process.env.FRONTEND_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
