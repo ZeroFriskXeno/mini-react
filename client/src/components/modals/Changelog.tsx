@@ -5,6 +5,8 @@ export default function Changelog({cancel}: {cancel: ()=>void} ) {
 const changelogText = `# ${APP_VERSION} (${APP_BUILD})
 - Responsive Web Design
 - Added Smooth Animations
+- Fixed credential issues
+- Added slurs filter on server/db
 
 ## Todo list
 - Improve server security.

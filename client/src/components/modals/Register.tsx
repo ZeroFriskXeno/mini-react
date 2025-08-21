@@ -23,6 +23,7 @@ export default function Register(
 			<form>
 				<small className="text-blue-950">Username</small>
 				<input
+					className={`${fetching ? "animate-pulse" : null } `}
 					type="text"
 					placeholder="hppsrc"
 					value={username}
@@ -32,6 +33,7 @@ export default function Register(
 
 				<small className="text-blue-950">Password</small>
 				<input
+					className={`${fetching ? "animate-pulse" : null } `}
 					type="password"
 					placeholder="********"
 					value={password}
@@ -39,16 +41,16 @@ export default function Register(
 					disabled={fetching}
 				/>
 
-				<small className="text-blue-950">Already registered? <span onClick={switcher} className="underline cursor-pointer" >Sign in</span> </small> <br />
+				<small className="text-blue-950">Already registered? <span onClick={()=>{fetching ? null : switcher() }} className="underline cursor-pointer" >Sign in</span> </small> <br />
 
 				<button
-					className="btn blue"
+					className={`btn blue ${fetching ? "animate-pulse" : null } `}
 					disabled={fetching}
 					onClick={() => {setFetching(true); register(data)}}>
 					<p>Register</p>
 				</button>
 				<button
-					className="btn red"
+					className={`btn red ${fetching ? "animate-pulse" : null } `}
 					disabled={fetching}
 					onClick={cancel}>
 					<p>Cancel</p>

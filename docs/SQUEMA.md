@@ -1,60 +1,73 @@
 ## Tables
 
 > [!WARNING] The database normalization level is 2 (NF2)
-> During development, a controlled denormalization was implemented to avoid refactoring all frontend code (using triggers). THIS ***SHOULDN'T*** CAUSE ISSUES. Future updates will modify this. Check the repository's ``schema.sql`` file for changes.
+> During development, a controlled denormalization was implemented to avoid refactoring all frontend code (using triggers). THIS **_SHOULDN'T_** CAUSE ISSUES. Future updates will modify this. Check the repository's `schema.sql` file for changes.
 
 ### `users` Table
-| Column    | Type        | Constraints                          | Default Value |
-|-----------|-------------|--------------------------------------|---------------|
-| id        | bigint      | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -          |
-| username  | text        | NOT NULL, UNIQUE                     | -             |
-| password  | text        | NOT NULL                             | -             |
-| status    | bigint      | NOT NULL                             | -             |
+
+| Column   | Type   | Constraints                               | Default Value |
+| -------- | ------ | ----------------------------------------- | ------------- |
+| id       | bigint | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -             |
+| username | text   | NOT NULL, UNIQUE                          | -             |
+| password | text   | NOT NULL                                  | -             |
+| status   | bigint | NOT NULL                                  | -             |
 
 ---
 
 ### `posts` Table
-| Column    | Type                     | Constraints                          | Default Value                  |
-|-----------|--------------------------|--------------------------------------|--------------------------------|
-| id        | bigint                   | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -                         |
-| user_id   | bigint                   | NOT NULL, FOREIGN KEY (users.id)     | -                             |
-| username  | text                     | NOT NULL                             | -                             |
-| post_time | timestamp with time zone | NOT NULL                             | `(now() AT TIME ZONE 'utc'::text)` |
-| content   | text                     | NOT NULL                             | -                             |
-| likes     | bigint                   | NOT NULL                             | `0`                            |
-| reports   | bigint                   | NOT NULL                             | `0`                            |
+
+| Column    | Type                     | Constraints                               | Default Value                      |
+| --------- | ------------------------ | ----------------------------------------- | ---------------------------------- |
+| id        | bigint                   | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -                                  |
+| user_id   | bigint                   | NOT NULL, FOREIGN KEY (users.id)          | -                                  |
+| username  | text                     | NOT NULL                                  | -                                  |
+| post_time | timestamp with time zone | NOT NULL                                  | `(now() AT TIME ZONE 'utc'::text)` |
+| content   | text                     | NOT NULL                                  | -                                  |
+| likes     | bigint                   | NOT NULL                                  | `0`                                |
+| reports   | bigint                   | NOT NULL                                  | `0`                                |
 
 ---
 
 ### `likes` Table
-| Column    | Type                     | Constraints                          | Default Value |
-|-----------|--------------------------|--------------------------------------|---------------|
-| id        | bigint                   | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -          |
-| user_id   | bigint                   | NOT NULL, FOREIGN KEY (users.id)     | -             |
-| post_id   | bigint                   | NOT NULL, FOREIGN KEY (posts.id)     | -             |
-| like_time | timestamp with time zone | NOT NULL                             | `now()`       |
+
+| Column    | Type                     | Constraints                               | Default Value |
+| --------- | ------------------------ | ----------------------------------------- | ------------- |
+| id        | bigint                   | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -             |
+| user_id   | bigint                   | NOT NULL, FOREIGN KEY (users.id)          | -             |
+| post_id   | bigint                   | NOT NULL, FOREIGN KEY (posts.id)          | -             |
+| like_time | timestamp with time zone | NOT NULL                                  | `now()`       |
 
 > [!NOTE] Composite primary key (id, post_id)
 
 ---
 
 ### `reports` Table
-| Column      | Type                     | Constraints                          | Default Value |
-|-------------|--------------------------|--------------------------------------|---------------|
-| id          | bigint                   | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -          |
-| user_id     | bigint                   | NOT NULL, FOREIGN KEY (users.id)     | -             |
-| post_id     | bigint                   | NOT NULL, FOREIGN KEY (posts.id)     | -             |
-| report_time | timestamp with time zone | NOT NULL                             | `now()`       |
-| reason      | text                     | -                                    | -             |
+
+| Column      | Type                     | Constraints                               | Default Value |
+| ----------- | ------------------------ | ----------------------------------------- | ------------- |
+| id          | bigint                   | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -             |
+| user_id     | bigint                   | NOT NULL, FOREIGN KEY (users.id)          | -             |
+| post_id     | bigint                   | NOT NULL, FOREIGN KEY (posts.id)          | -             |
+| report_time | timestamp with time zone | NOT NULL                                  | `now()`       |
+| reason      | text                     | -                                         | -             |
 
 > [!NOTE] Composite primary key (id, post_id)
 
 ---
 
 ### `test` Table
-| Column | Type   | Constraints                          | Default Value |
-|--------|--------|--------------------------------------|---------------|
-| id     | bigint | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -          |
+
+| Column | Type   | Constraints                               | Default Value |
+| ------ | ------ | ----------------------------------------- | ------------- |
+| id     | bigint | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -             |
+
+### `regex` Table
+
+| Column  | Type   | Constraints                               | Default Value |
+| ------- | ------ | ----------------------------------------- | ------------- |
+| id      | bigint | PRIMARY KEY, GENERATED ALWAYS AS IDENTITY | -             |
+| Regex   | text   | NOT NULL                                  | `*`           |
+| Comment | text   | -                                         | -             |
 
 ## Functions
 

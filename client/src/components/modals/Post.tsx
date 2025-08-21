@@ -27,7 +27,7 @@ export default function Post(
 				<small className="text-blue-950">Share your thoughs here...</small> <small className="text-blue-950">{250 - counter} characters remaining</small>
 			</div>
 			<textarea
-				className="h-45"
+				className={`h-45 ${fetching ? "animate-pulse" : null } `}
 				placeholder="I like ice cream!"
 				value={input}
 				onChange={(e)=>{setCounter(e.target.value.length); setInput(e.target.value)}}
@@ -36,13 +36,13 @@ export default function Post(
 			></textarea>
 
 			<button
-				className="btn blue"
+				className={`btn blue ${fetching ? "animate-pulse" : null } `}
 				disabled={fetching}
 				onClick={() => {setFetching(true); post(data)}}>
 				<p>Post</p>
 			</button>
 			<button
-				className="btn red"
+				className={`btn red ${fetching ? "animate-pulse" : null } `}
 				disabled={fetching}
 				onClick={cancel}>
 				<p>Cancel</p>

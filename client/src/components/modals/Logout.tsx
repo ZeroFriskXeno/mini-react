@@ -14,13 +14,13 @@ export default function Logout(
 			<p className="text-blue-950">Are you sure do you want to log out?</p>
 
 			<button
-				className="btn red"
+				className={`btn red ${fetching ? "animate-pulse" : null } `}
 				disabled={fetching}
 				onClick={() => {setFetching(true); logout()}}>
-				<p>Yes</p>
+				<p>{fetching ? "..." : "Yes"}</p>
 			</button>
 			<button
-				className="btn blue"
+				className={`btn blue ${fetching ? "animate-pulse" : null } `}
 				disabled={fetching}
 				onClick={cancel}>
 				<p>No</p>

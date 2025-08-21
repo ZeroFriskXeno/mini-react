@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
 export const http404 = async (req: Request, res: Response) => {
-	res.status(404).json({ ok: false, message: "404: Endpoint not found"  });
-}
+	res.status(404).json({ ok: false, message: "404: Endpoint not found" });
+};
