@@ -47,19 +47,15 @@ export default function Post( { id, username, liked, likes, reports, content, po
 
 	const extended = () => {
 		return (
-			<div className="down" >
-
+			<div className={`down ${isExpanded ? 'expanded' : ''}`}>
 				<div>
 					<span>{content}</span>
 				</div>
 
-				{/* <small>Post ID:{id}</small> */}
-
 				<div>
-					< AlertTriangle className="img" color="#f3f4f6" fill="#e5a13e" onClick={reportWrapper} />
-					< ArrowUp className="img" color="#f3f4f6" onClick={toggleExpanded} />
+					<AlertTriangle className="img" color="#f3f4f6" fill="#e5a13e" onClick={reportWrapper} />
+					<ArrowUp className="img" color="#f3f4f6" onClick={toggleExpanded} />
 				</div>
-
 			</div>
 		)
 	}
@@ -70,44 +66,38 @@ export default function Post( { id, username, liked, likes, reports, content, po
 
 	return (
 		<>
-			<div className={`relative ${!isExpanded ? "post" : "post-exp"} ${fetching ? "fetching" : ""} ` } >
-				{ fetching ? overlayFetching() : null }
+			<div className={`relative post ${fetching ? "fetching" : ""}`}>
+				{fetching ? overlayFetching() : null}
 				<div className="top">
-
 					<div className="left">
-
-						<b >
-							{username}
-						</b>
-						<p className={!isExpanded ? "" : "exp" } >
-							{ !isExpanded ? content.slice(0,15).concat("...") : dayjs(post_time).format('hh:mm A DD/MM/YY') }
+						<b>{username}</b>
+						<p className={!isExpanded ? "" : "exp"}>
+							{!isExpanded ? content.slice(0,15).concat("...") : dayjs(post_time).format('hh:mm A DD/MM/YY')}
 						</p>
-
 					</div>
 
 					<div className="right">
-
 						<div
-							className={ !liked ? "likes " : "likes bg-blue-800" }
-							onClick={ likeWrapper }
+							className={!liked ? "likes " : "likes bg-blue-800"}
+							onClick={likeWrapper}
 						>
-							<p> {likesValue} </p>
-							< ThumbsUp
+							<p>{likesValue}</p>
+							<ThumbsUp
 								color="#f3f4f6"
-								fill={!liked ? "#22f0" : "#22f" }
+								fill={!liked ? "#22f0" : "#22f"}
 							/>
 						</div>
 
-						< MoreVertical
+						<MoreVertical
 							color="#f3f4f6"
-							className={!isExpanded ? "more" : "more exp" }
+							className={!isExpanded ? "more" : "more exp"}
 							onClick={toggleExpanded}
 						/>
-
 					</div>
-
 				</div>
-				{!isExpanded ?  null : extended()}
+
+				{extended()}
+
 			</div>
 		</>
 	)

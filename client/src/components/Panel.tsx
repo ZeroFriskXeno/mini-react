@@ -11,13 +11,13 @@ export default function Panel( { logged, slide, close: close, onRegister, onLogi
 	return (
 		<>
 
-			<div id="panel" className={!slide ? "right-3/2" : "right-1/2"}>
+			<div id="panel" className={!slide ? "right-3/2 sm:right-3/2" : "right-0/2 sm:right-2/6 md:right-2/6 lg:right-1/2"}>
 
 				< X className="absolute" id="close" onClick={()=>{close()}} />
 
 				<div id="panel-top">
 					<img height="80" width="80" src={ReactIcon} />
-					<h1 >Mini-React</h1>
+					<h1>Mini-React</h1>
 				</div>
 
 				<hr />

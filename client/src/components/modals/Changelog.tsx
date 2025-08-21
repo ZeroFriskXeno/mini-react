@@ -1,14 +1,12 @@
-import { APP_BUILD } from "../../store/global";
+import { APP_BUILD, APP_VERSION } from "../../store/global";
 
 export default function Changelog({cancel}: {cancel: ()=>void} ) {
 
-const changelogText = `# v1.0.0 (${APP_BUILD})
-- Stable public version
-- Added register, login, delete account actions
-- Added posting, liking, reporting
+const changelogText = `# ${APP_VERSION} (${APP_BUILD})
+- Responsive Web Design
+- Added Smooth Animations
 
 ## Todo list
-- Responsive design.
 - Improve server security.
 - Code cleanup.
 - Post editing/deleting.

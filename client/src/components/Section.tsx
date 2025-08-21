@@ -7,7 +7,7 @@ export default function Section( {title, icon, posts, likeAction, likeUpdate, re
 			<div className="Section">
 
 				<div className="top-section">
-					<h4>{title}</h4>
+					<h3>{title}</h3>
 					{icon}
 				</div>
 
