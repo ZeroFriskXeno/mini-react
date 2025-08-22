@@ -1,6 +1,7 @@
 ## Tables
 
-> [!WARNING] The database normalization level is 2 (NF2)
+> [!WARNING]
+> **The database normalization level is 2 (NF2)**
 > During development, a controlled denormalization was implemented to avoid refactoring all frontend code (using triggers). THIS **_SHOULDN'T_** CAUSE ISSUES. Future updates will modify this. Check the repository's `schema.sql` file for changes.
 
 ### `users` Table

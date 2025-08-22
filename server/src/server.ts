@@ -12,7 +12,7 @@ import appRoutes from "./routes/app";
 import { http404 } from "./controllers/http";
 
 const app = express();
-const port = 3000;
+const port = env.PORT || 3000;
 
 app.use(
 	helmet({
