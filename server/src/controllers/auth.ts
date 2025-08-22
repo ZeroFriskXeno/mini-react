@@ -94,8 +94,8 @@ export const login = async (req: Request, res: Response) => {
 
 		res.cookie("token", JWTtoken, {
 			httpOnly: true,
-			secure: process.env.NODE_ENV === "production",
-			sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+			secure: true,
+			sameSite: "none",
 			maxAge: COOKIE_LIFETIME,
 			path: "/",
 		});

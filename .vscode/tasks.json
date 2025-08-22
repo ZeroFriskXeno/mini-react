@@ -2,7 +2,7 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-		"label": "Update Gloabl Build",
+		"label": "Update Gloabal Build",
 		"type": "shell",
 		"command": "powershell",
 		"args": [
