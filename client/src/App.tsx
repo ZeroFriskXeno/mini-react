@@ -43,13 +43,13 @@ export default function App() {
 	const ModalContents = [
 		/*0*/ < Modals.Secret />,
 		/*1*/ < Modals.Error		error={error} 					cancel={() => { setError(null); hideAll();} } />,
-		/*2*/ < Modals.Success	success={success} 				cancel={() => { setSuccess(null); hideAll();} } />,
-		/*3*/ < Modals.Register	register={handleRegister} 		cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
+		/*2*/ < Modals.Success		success={success} 				cancel={() => { setSuccess(null); hideAll();} } />,
+		/*3*/ < Modals.Register		register={handleRegister} 		cancel={hideAll} 		switcher={()=>setModalContent(4)} />,
 		/*4*/ < Modals.Login		login={handleLogin} 			cancel={hideAll} 		switcher={()=>setModalContent(3)} />,
-		/*5*/ < Modals.Post		post={handlePostNew} 			cancel={hideAll} />,
+		/*5*/ < Modals.Post			post={handlePostNew} 			cancel={hideAll} />,
 		/*6*/ < Modals.Logout		logout={handleLogout} 			cancel={hideAll} />,
 		/*7*/ < Modals.DeleteUser	deleteUser={handleDeleteUser} 	cancel={hideAll} />,
-		/*8*/ < Modals.Report		report={handlePostReport}		cancel={hideAll} post={postToReport} />,
+		/*8*/ < Modals.Report		report={handlePostReport}		cancel={hideAll}	post={postToReport} />,
 		/*9*/ < Modals.Changelog	cancel={hideAll} />
 	]
 
@@ -85,10 +85,20 @@ export default function App() {
 
 		fetchData();
 
+		// -
+
 		const build = localStorage.getItem("APP_BUILD");
 		if (!build || build !== APP_BUILD ) {
 			localStorage.setItem("APP_BUILD", APP_BUILD);
 			setModalContent(9); forceShowModal();
+		}
+
+		// -
+
+		if (window.location.hostname.includes("hppsrc.site")) {
+			setError(
+				"Your browser might be blocking third-party cookies.\n\nTo use Mini React, please enable third-party cookies for this site in your browser settings."
+			);
 		}
 
 	}, []);
