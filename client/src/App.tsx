@@ -1,7 +1,7 @@
 import type { PostData, PostProps } from "./types/types";
 
 import { useEffect, useState } from "react";
-import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare } from "react-feather";
+import { ThumbsUp, Clock, TrendingUp, Repeat, MessageSquare, LogIn } from "react-feather";
 
 import Panel from "./components/Panel";
 import Modal from "./components/Modal";
@@ -120,15 +120,15 @@ export default function App() {
 
 				<div>
 					<img height="128 " width="128" src={ReactIcon} onClick={togglePanel} />
-					<h4 onClick={() => { toggleModal(); setModalContent(0); }} > Mini-React </h4>
-					< ApiStatus  />
+					<h4 id="brand" onClick={() => { toggleModal(); setModalContent(0); }} > Mini-React </h4>
+					< ApiStatus />
 					<small>v {APP_VERSION}</small>
 				</div>
 
 				<div>
 					<div className="btn blue" onClick={logged ? ()=>{setModalContent(5); forceShowModal();} : ()=>{setModalContent(4); forceShowModal();} }>
-						< MessageSquare />
-						<p className="ml-2">New Post</p>
+						{logged ? < MessageSquare />  : < LogIn /> }
+						<p id="post-text" className="ml-2">{logged ? "New Post" : "Log in"}</p>
 					</div>
 				</div>
 

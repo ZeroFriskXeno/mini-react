@@ -16,7 +16,7 @@ export default function Modal({ show, content, action }:ModalProps ) {
 			<div id="modal"  onClick={(e) => e.stopPropagation()} >
 				{content}
 			</div>
-			<small id="text">Click anywhere outside to close the modal</small>
+			<small id="modal_back_text">Click anywhere outside to close the modal</small>
 		</div>
 
 	)

@@ -55,28 +55,30 @@ export default function Report(
                     {dayjs(post.post_time).format('DD/MM/YY hh:mm A')}
                 </p>
             </div>
+			<form>
+				<small className="text-blue-950">Reason for your report</small>
+				<input
+					className={`${fetching ? "animate-pulse" : null } `}
+					placeholder="Something bad :("
+					value={reason}
+					onChange={(e)=>setReason(e.target.value)}
+					disabled={fetching}
+				/>
 
-			<small className="text-blue-950">Reason for your report</small>
-			<input
-				placeholder="Something bad :("
-				value={reason}
-				onChange={(e)=>setReason(e.target.value)}
-				disabled={fetching}
-			/>
+				<button
+					className={`btn red ${fetching ? "animate-pulse" : null } `}
+					disabled={fetching}
+					onClick={handleReport}>
+					<p>Report</p>
+				</button>
 
-			<button
-				className="btn red"
-				disabled={fetching}
-                onClick={handleReport}>
-				<p>Report</p>
-			</button>
-
-			<button
-				className="btn blue"
-				disabled={fetching}
-				onClick={cancel}>
-				<p>Cancel</p>
-			</button>
+				<button
+					className={`btn blue ${fetching ? "animate-pulse" : null } `}
+					disabled={fetching}
+					onClick={cancel}>
+					<p>Cancel</p>
+				</button>
+			</form>
 
 		</>
 	)

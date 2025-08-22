@@ -12,16 +12,22 @@ import appRoutes from "./routes/app";
 import { http404 } from "./controllers/http";
 
 const app = express();
-const port = 3000;
+const port = env.PORT || 3000;
 
-app.use(helmet({
-	contentSecurityPolicy: {
-		directives: {
-			...helmet.contentSecurityPolicy.getDefaultDirectives(),
-			"frame-ancestors": ["'self'", "https://hppsrc.site", "https://www.hppsrc.site"]
-		}
-	}
-}));
+app.use(
+	helmet({
+		contentSecurityPolicy: {
+			directives: {
+				...helmet.contentSecurityPolicy.getDefaultDirectives(),
+				"frame-ancestors": [
+					"'self'",
+					"https://hppsrc.site",
+					"https://www.hppsrc.site",
+				],
+			},
+		},
+	})
+);
 app.use(cors({ origin: process.env.FRONTEND_ORIGIN, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -32,7 +38,7 @@ app.use("/api", appRoutes);
 
 const clientDist = path.join(__dirname, "../../client/dist");
 
-if ( fs.existsSync(clientDist) ) {
+if (fs.existsSync(clientDist)) {
 	app.use(express.static(clientDist));
 	app.get("/", (req, res) => {
 		res.sendFile(path.join(clientDist, "index.html"));
