@@ -26,6 +26,10 @@ language ensures better data integrity. Designed for PaaS platforms like
 
 Current version: **2.0.0**
 
+> [!WARNING] 
+> **This project is dead.**
+> If you want to see some kind of demo check this: https://youtu.be/YxoGUU81GQg
+
 _What can you do?_
 
 - Create a user, log in, delete account.
