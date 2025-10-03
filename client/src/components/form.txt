@@ -1,0 +1,57 @@
+import React, { useState } from "react";
+
+const Form: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert(`Datos enviados:\nNombre: ${formData.name}\nEmail: ${formData.email}\nMensaje: ${formData.message}`);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="p-4 border rounded max-w-md mx-auto space-y-2">
+      <input
+        type="text"
+        name="name"
+        placeholder="Nombre"
+        value={formData.name}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+        required
+      />
+      <input
+        type="email"
+        name="email"
+        placeholder="Correo"
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+        required
+      />
+      <textarea
+        name="message"
+        placeholder="Mensaje"
+        value={formData.message}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
+        required
+      />
+      <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+        Enviar
+      </button>
+    </form>
+  );
+};
+
+export default Form;
